@@ -1,0 +1,94 @@
+/*
+ * fonts.css — qte77 UI-branding TYPOGRAPHY (EyeRest).
+ *
+ * Hand-authored structural CSS (@font-face + type tokens); values mirror
+ * ../DESIGN.md (`typography`) — keep in sync. Only eyerest.css is generated
+ * (scripts/gen_ui_kit.py); this file is not.
+ * Pair with eyerest.css (color) and layout.css (spacing/shape).
+ *
+ * Web delivery prefers WOFF2 (Brotli-compressed, universal since ~2018) with a TTF
+ * fallback, so it works against today's ../fonts/*.ttf and upgrades to *.woff2 once
+ * install_fonts.py emits them. The brand-baking pipeline (../scripts/) keeps TTF/OTF —
+ * fonttools / cairosvg need desktop formats.
+ *
+ * Licenses: Inter + JetBrains Mono are SIL OFL 1.1 (see ../fonts/LICENSES/).
+ */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/Inter-Regular.woff2") format("woff2"),
+       url("../fonts/Inter-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/Inter-Bold.woff2") format("woff2"),
+       url("../fonts/Inter-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2"),
+       url("../fonts/JetBrainsMono-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2"),
+       url("../fonts/JetBrainsMono-Bold.ttf") format("truetype");
+}
+
+:root {
+  /* fallbacks resolve before the web font loads (font-display: swap) */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  --text-base: 16px;
+  --leading: 1.6;
+  --text-mono: 14px;
+  --leading-mono: 1.5;
+}
+
+/* ---------- Base type application ---------- */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading);
+}
+h1 { font-size: 30px; line-height: 1.25; font-weight: 600; }
+h2 { font-size: 24px; line-height: 1.3;  font-weight: 600; }
+h3 { font-size: 20px; line-height: 1.4;  font-weight: 600; }
+.text-display { font-size: 40px; line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; }
+.text-eyebrow {
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.text-caption { font-size: 13px; line-height: 1.5; font-weight: 400; }
+.text-body-small { font-size: 14px; line-height: 1.5; font-weight: 400; }
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  line-height: var(--leading-mono);
+}
+/* numeric data is tabular mono */
+.num, [data-numeric] { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}

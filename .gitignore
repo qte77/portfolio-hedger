@@ -1,0 +1,6 @@
+.env
+dist/
+node_modules/
+.wrangler/
+.claude/settings.local.json
+e2e-shots/

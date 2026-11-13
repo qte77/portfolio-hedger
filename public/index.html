@@ -1,0 +1,352 @@
+<title>Portfolio Hedger</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Options portfolio risk lab: Black–Scholes Greeks, delta/gamma/beta hedges booked as real positions, correlated Monte Carlo POP/CVaR/Sortino and a joint hedge optimizer.">
+<link rel="icon" type="image/svg+xml" href="vendor/images/logo-mark.svg">
+<script>
+  // Theme guard (adapted from brand/ui-kit/anti-fouc.html): ?theme= › stored choice › the host's
+  // explicit theme › dark, the brand default for dashboards. Runs before the stylesheets.
+  (function () {
+    var root = document.documentElement;
+    // Uncaught script errors land on a DOM attribute that make e2e reads (headless console capture misses them).
+    function flag(msg) { root.setAttribute("data-js-error", String(msg).slice(0, 300)); }
+    window.addEventListener("error", function (e) { flag(e.message || "error"); });
+    window.addEventListener("unhandledrejection", function (e) { flag(e.reason); });
+    window.__hostTheme = root.getAttribute("data-theme");
+    try {
+      var modes = { system: 1, light: 1, dark: 1 };
+      var p = new URLSearchParams(location.search).get("theme");
+      var s = localStorage.getItem("qte77-theme");
+      var m = modes[p] ? p : modes[s] ? s : window.__hostTheme || "dark";
+      if (m === "light" || m === "dark") root.setAttribute("data-theme", m);
+    } catch (e) {
+      if (!window.__hostTheme) root.setAttribute("data-theme", "dark");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="vendor/ui-kit/eyerest.css">
+<link rel="stylesheet" href="vendor/ui-kit/fonts.css">
+<link rel="stylesheet" href="vendor/ui-kit/layout.css">
+<link rel="stylesheet" href="vendor/ui-kit/a11y.css">
+<link rel="stylesheet" href="app.css">
+
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="#dashboard" aria-label="Portfolio Hedger home">
+      <img src="vendor/images/logo-mark.svg" alt="" width="28" height="28">
+      <span class="brand-name">Portfolio Hedger</span>
+    </a>
+    <span class="top-meta caption">Example quotes, not live data · single shared ledger</span>
+    <button id="theme-toggle" type="button" class="ghost" aria-label="Color theme: System (click to change)" title="Color theme: System (click to change)">
+      <span class="theme-glyph" aria-hidden="true">◐</span>
+      <span class="theme-label">System</span>
+    </button>
+    <span id="theme-status" class="sr-only" role="status" aria-live="polite"></span>
+  </div>
+  <nav class="tabs" aria-label="Views">
+    <a href="#dashboard">Dashboard</a>
+    <a href="#positions">Positions</a>
+    <a href="#builder">Strategy builder</a>
+    <a href="#hedge">Hedging</a>
+    <a href="#risk">Risk</a>
+    <a href="#surface">Surface</a>
+    <a href="#optimizer">Optimizer</a>
+    <a href="#method">Method</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section id="view-dashboard" class="view" aria-labelledby="h-dashboard">
+    <div class="view-head">
+      <div>
+        <h1 id="h-dashboard">Portfolio dashboard</h1>
+        <span class="index-rule index-rule--lg" aria-hidden="true"></span>
+      </div>
+      <p class="lede">Every number below is computed from the one ledger on the Positions tab. Hedges you book land in the same ledger, so their effect shows up everywhere at once.</p>
+    </div>
+    <div class="tiles" id="kpis"></div>
+    <div class="grid-2">
+      <article class="card">
+        <header class="card-head">
+          <h2>P&amp;L across SPX moves</h2>
+          <p class="caption">Each name moves by its beta × the SPX move. IV unchanged.</p>
+        </header>
+        <div class="chart" id="payoff"></div>
+      </article>
+      <article class="card">
+        <header class="card-head">
+          <h2>Stress scenarios</h2>
+          <p class="caption">Instant shock at today's date.</p>
+        </header>
+        <div id="stress"></div>
+      </article>
+    </div>
+    <article class="card">
+      <header class="card-head"><h2>Greeks by underlying</h2>
+        <p class="caption">Delta in share-equivalents (an option contract is 100, an ES future 50 × SPX, MES 5 × SPX).</p></header>
+      <div id="greeks-table"></div>
+    </article>
+  </section>
+
+  <section id="view-positions" class="view" aria-labelledby="h-positions" hidden>
+    <div class="view-head"><h1 id="h-positions">Positions</h1>
+      <p class="lede">Edit a quote and the whole book reprices. Quantities are signed: negative means short.</p></div>
+    <article class="card">
+      <header class="card-head"><h2>Ledger</h2>
+        <div class="actions"><button type="button" id="reset-example" class="ghost">Load example book</button><button type="button" id="clear-book" class="ghost">Clear ledger</button></div></header>
+      <div id="ledger"></div>
+      <p class="caption" id="clear-confirm" hidden></p>
+    </article>
+    <article class="card" id="cash-card">
+      <header class="card-head"><h2>Cash account</h2>
+        <p class="caption">How much cash the book needs in a cash account (no margin loan). Leave a field blank if you don't want to use it.</p></header>
+      <div class="grid-2">
+        <div class="stack">
+          <form id="cash-form" class="form-grid">
+            <label for="acct-cash">Account cash ($)<input id="acct-cash" type="number" step="100" min="0" placeholder="not set"></label>
+            <label for="margin-es">ES initial margin per contract ($)<input id="margin-es" type="number" step="100" min="0" placeholder="not set"></label>
+            <label for="margin-mes">MES initial margin per contract ($)<input id="margin-mes" type="number" step="10" min="0" placeholder="not set"></label>
+          </form>
+          <div id="cash-summary"></div>
+        </div>
+        <div>
+          <h3 class="subhead">Assignment exposure</h3>
+          <p class="caption">Short legs in the money or within 7 days of expiry, and what assignment would need.</p>
+          <div id="assignment"></div>
+        </div>
+      </div>
+    </article>
+    <article class="card" id="io-card">
+      <header class="card-head"><h2>Export and import</h2>
+        <p class="caption">Copy the whole book as JSON (positions, roll history, quotes and cash settings) to keep a backup or move it to another browser. Paste it back into the box to import it; importing replaces what is here.</p></header>
+      <label for="ledger-json" class="sr-only">Ledger JSON</label>
+      <textarea id="ledger-json" rows="6" spellcheck="false" placeholder="Paste exported ledger JSON here, or press “Copy ledger as JSON”."></textarea>
+      <div class="actions io-actions"><button type="button" id="export-ledger" class="ghost">Copy ledger as JSON</button><button type="button" id="import-ledger" class="ghost">Import from the box</button></div>
+      <p class="caption" id="io-msg" role="status"></p>
+    </article>
+    <div class="grid-2 wide-right">
+      <div class="stack">
+        <article class="card">
+          <header class="card-head"><h2>Add stock or ETF</h2></header>
+          <form id="stock-form" class="form-grid">
+            <label for="stock-sym">Symbol<select id="stock-sym"></select></label>
+            <label for="stock-qty">Shares<input id="stock-qty" type="number" step="1" value="100" required></label>
+            <label for="stock-entry">Entry price<input id="stock-entry" type="number" step="0.01" min="0.01" required></label>
+            <button class="btn-primary" type="submit">Add position</button>
+          </form>
+          <p class="caption">SPX is an index: hold it through options or ES/MES futures.</p>
+        </article>
+        <article class="card">
+          <header class="card-head"><h2>Add option leg</h2>
+            <p class="caption">Enter a leg exactly as your broker filled it. Leave Entry blank to use the model price. Add the second leg of a spread to the first one's combo, so the cash account sees one spread.</p></header>
+          <form id="leg-form" class="form-grid">
+            <label for="leg-sym">Underlying<select id="leg-sym"></select></label>
+            <label for="leg-right">Type<select id="leg-right"><option value="call">Call</option><option value="put">Put</option></select></label>
+            <label for="leg-strike">Strike<input id="leg-strike" type="number" step="0.5" min="0.5" required></label>
+            <label for="leg-days">Days to expiry<input id="leg-days" type="number" step="1" min="0" value="30" required></label>
+            <label for="leg-iv">IV (vol points)<input id="leg-iv" type="number" step="0.5" min="1" required></label>
+            <label for="leg-qty">Contracts (− = short)<input id="leg-qty" type="number" step="1" value="1" required></label>
+            <label for="leg-entry">Entry per share (optional)<input id="leg-entry" type="number" step="0.01" min="0"></label>
+            <label for="leg-combo">Combo<select id="leg-combo"></select></label>
+            <button class="btn-primary" type="submit">Add leg</button>
+          </form>
+        </article>
+      </div>
+      <article class="card">
+          <header class="card-head"><h2>Market</h2>
+            <p class="caption">Illustrative quotes. Beta is versus SPX; IV in vol points.</p></header>
+          <div id="market"></div>
+          <div class="form-grid">
+            <label for="rate">Risk-free rate (%)<input id="rate" type="number" step="0.05" min="0"></label>
+            <label for="spotvol">IV change per 1% SPX move (points)<input id="spotvol" type="number" step="0.25"></label>
+          </div>
+          <p class="caption">Used by the Monte Carlo and the optimizer: −1 means every option's IV rises 1 point for each 1% the market falls. 0 keeps IV fixed. This is your assumption, not a fitted skew. Entry prices don't include it, so treat the risk numbers as a stress view while it is set.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="view-builder" class="view" aria-labelledby="h-builder" hidden>
+    <div class="view-head"><h1 id="h-builder">Strategy builder</h1>
+      <p class="lede">Templates become individual legs priced with Black–Scholes. Each leg keeps its own expiry and IV. Edit any strike in the preview to match your fill, and enter your fill price for the whole combo to spread it across the legs.</p></div>
+    <div class="grid-2">
+      <article class="card">
+        <form id="strategy-form" class="form-grid">
+          <label for="st-name">Strategy<select id="st-name"></select></label>
+          <label for="st-sym">Underlying<select id="st-sym"></select></label>
+          <label for="st-spot">Spot<input id="st-spot" type="number" step="0.01" min="0.01"></label>
+          <label for="st-width">Strike width<input id="st-width" type="number" step="0.5" min="0.5"></label>
+          <label for="st-qty">Contracts<input id="st-qty" type="number" step="1" min="1" value="1"></label>
+          <label for="st-days">Days to expiry<input id="st-days" type="number" step="1" min="1" value="30"></label>
+          <label for="st-iv">IV (vol points)<input id="st-iv" type="number" step="0.5" min="1"></label>
+          <label for="st-net">Your fill per combo (optional)<input id="st-net" type="number" step="0.01" min="0" placeholder="e.g. 1.80"></label>
+          <label for="st-net-side">Fill was a<select id="st-net-side"><option value="credit">Credit</option><option value="debit">Debit</option></select></label>
+          <p class="caption" id="st-msg" role="status"></p>
+          <button class="btn-primary" type="submit">Add legs to ledger</button>
+        </form>
+      </article>
+      <article class="card">
+        <header class="card-head"><h2>Preview</h2></header>
+        <div id="st-preview"></div>
+        <div class="chart" id="st-payoff"></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="view-hedge" class="view" aria-labelledby="h-hedge" hidden>
+    <div class="view-head"><h1 id="h-hedge">Hedging</h1>
+      <p class="lede">Each hedge is proposed first with its before and after numbers. Booking it adds a real position to the ledger, which you can remove later. CVaR here measures the tail under the same risk-neutral paths as the Risk view. It shows how much a hedge cuts the worst outcomes, not whether the hedge leg itself will make money.</p></div>
+    <div class="grid-3">
+      <article class="card">
+        <header class="card-head"><h2>Delta hedge</h2><p class="caption">Shares to a delta target, or a % of the holding. SPX uses MES futures.</p></header>
+        <div class="form-grid">
+          <label for="dh-sym">Underlying<select id="dh-sym"></select></label>
+          <label for="dh-target">Target delta<input id="dh-target" type="number" step="1" value="0"></label>
+          <label for="dh-pct">Or hedge % of the holding<input id="dh-pct" type="number" step="5" min="0" max="100" placeholder="optional"></label>
+        </div>
+        <div id="dh-out"></div>
+      </article>
+      <article class="card">
+        <header class="card-head"><h2>Gamma hedge</h2><p class="caption">ATM options to a gamma target, or as many as a premium budget buys.</p></header>
+        <div class="form-grid">
+          <label for="gh-sym">Underlying<select id="gh-sym"></select></label>
+          <label for="gh-target">Target gamma<input id="gh-target" type="number" step="0.1" value="0"></label>
+          <label for="gh-budget">Or premium budget ($)<input id="gh-budget" type="number" step="100" min="0" placeholder="optional"></label>
+          <label for="gh-days">Days to expiry<input id="gh-days" type="number" step="1" min="1" value="30"></label>
+          <label for="gh-right">Option<select id="gh-right"><option value="call">Call</option><option value="put">Put</option></select></label>
+          <label class="check" for="gh-redelta"><input id="gh-redelta" type="checkbox" checked> Then bring this underlying's delta to zero</label>
+        </div>
+        <div id="gh-out"></div>
+      </article>
+      <article class="card">
+        <header class="card-head"><h2>SPX beta hedge</h2><p class="caption">Offset beta dollars with futures or SPY.</p></header>
+        <div class="form-grid">
+          <label for="bh-inst">Instrument<select id="bh-inst"><option value="MES">MES micro future (5 × SPX)</option><option value="ES">ES future (50 × SPX)</option><option value="SPY">SPY shares</option></select></label>
+          <label for="bh-target">Target beta dollars<input id="bh-target" type="number" step="1000" value="0"></label>
+        </div>
+        <div id="bh-out"></div>
+      </article>
+    </div>
+    <article class="card">
+      <header class="card-head"><h2>Booked hedges</h2></header>
+      <div id="hedge-log"></div>
+    </article>
+  </section>
+
+  <section id="view-risk" class="view" aria-labelledby="h-risk" hidden>
+    <div class="view-head"><h1 id="h-risk">Portfolio risk</h1>
+      <p class="lede">Monte Carlo over the whole book. One market factor drives every name through its beta, plus each name's own noise, so the names move together the way their betas say.</p></div>
+    <form id="risk-form" class="toolbar">
+      <label for="rk-days">Horizon (days)<input id="rk-days" type="number" min="1" step="1" value="30"></label>
+      <label for="rk-paths">Paths<select id="rk-paths"><option>1000</option><option selected>4000</option><option>10000</option></select></label>
+      <label for="rk-seed">Seed<input id="rk-seed" type="number" step="1" value="1"></label>
+    </form>
+    <div class="tiles" id="risk-kpis"></div>
+    <article class="card">
+      <header class="card-head"><h2>Distribution of P&amp;L at the horizon</h2>
+        <p class="caption" id="risk-caption"></p></header>
+      <div class="chart" id="histogram"></div>
+    </article>
+  </section>
+
+  <section id="view-surface" class="view" aria-labelledby="h-surface" hidden>
+    <div class="view-head"><h1 id="h-surface">Risk surface</h1>
+      <p class="lede">The whole book is repriced at every cell. Columns are SPX moves; rows are IV shifts or days forward.</p></div>
+    <form class="toolbar" id="surface-form">
+      <label for="sf-metric">Metric<select id="sf-metric"><option value="pnl">P&amp;L ($)</option><option value="beta">Beta dollars</option><option value="gamma">Gamma $ per 1% move</option></select></label>
+      <label for="sf-axis">Rows<select id="sf-axis"><option value="iv">IV shift (points)</option><option value="days">Days forward</option></select></label>
+    </form>
+    <article class="card">
+      <div class="chart" id="surface"></div>
+      <p class="caption">Cells show the signed value. Loss is rust and gain is green, and both carry a sign so the colour is never the only cue.</p>
+    </article>
+  </section>
+
+  <section id="view-optimizer" class="view" aria-labelledby="h-optimizer" hidden>
+    <div class="view-head"><h1 id="h-optimizer">Hedge optimizer</h1>
+      <p class="lede">Searches whole-contract quantities of an index future and an ATM option together. It minimises a weighted sum of beta dollars, gamma, vega, CVaR and trading cost, each measured against the unhedged book.</p></div>
+    <div class="grid-2">
+      <article class="card">
+        <form id="opt-form" class="form-grid">
+          <fieldset><legend>Instruments</legend>
+            <label for="op-fut">Future<select id="op-fut"><option value="MES">MES</option><option value="ES">ES</option></select></label>
+            <label for="op-sym">Option underlying<select id="op-sym"></select></label>
+            <label for="op-right">Option<select id="op-right"><option value="put">Put</option><option value="call">Call</option></select></label>
+            <label for="op-days">Option days<input id="op-days" type="number" min="1" step="1" value="30"></label>
+          </fieldset>
+          <fieldset><legend>Weights</legend>
+            <label for="op-wb">Beta<input id="op-wb" type="number" min="0" step="0.05" value="1"></label>
+            <label for="op-wg">Gamma<input id="op-wg" type="number" min="0" step="0.05" value="0.5"></label>
+            <label for="op-wv">Vega<input id="op-wv" type="number" min="0" step="0.05" value="0.25"></label>
+            <label for="op-wc">CVaR<input id="op-wc" type="number" min="0" step="0.05" value="1"></label>
+            <label for="op-wcost">Cost<input id="op-wcost" type="number" min="0" step="0.05" value="0.25"></label>
+          </fieldset>
+          <fieldset><legend>Limits and costs</legend>
+            <label for="op-lf">Max futures<input id="op-lf" type="number" min="0" step="1" value="400"></label>
+            <label for="op-lo">Max option contracts<input id="op-lo" type="number" min="0" step="1" value="200"></label>
+            <label for="op-cf">$ per future<input id="op-cf" type="number" min="0" step="0.5" value="2"></label>
+            <label for="op-co">$ per option<input id="op-co" type="number" min="0" step="0.5" value="5"></label>
+            <label for="op-days-h">Horizon (days)<input id="op-days-h" type="number" min="1" step="1" value="30"></label>
+          </fieldset>
+          <button class="btn-primary" type="submit">Find hedge</button>
+        </form>
+      </article>
+      <article class="card">
+        <header class="card-head"><h2>Result</h2></header>
+        <div id="opt-out"><p class="caption">Set the weights and press “Find hedge”. The search runs in your browser on 2,000 simulated paths.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="view-method" class="view" aria-labelledby="h-method" hidden>
+    <div class="view-head"><h1 id="h-method">Method and limits</h1></div>
+    <div class="prose card">
+      <h2>Pricing</h2>
+      <p>European Black–Scholes with a flat risk-free rate and no dividends. Each leg keeps its own days to expiry and IV, and a strategy is stored as its individual legs. A fill price entered for a whole combo is spread across its legs in proportion to their model prices, so the legs add up to your fill. A roll (changing a leg's strike or days) closes the old leg at its model mark, which realizes its P&L on the combo's subtotal and in the roll history, and opens the new leg at its model mark. Model marks stand in for fills; edit Entry to your real one. "Roll combo" on a subtotal row rolls every leg of that combo the same way (strikes shifted onto the strike grid, and/or a new expiry), one history record per leg. Removing a leg deletes it without realizing anything. Delta and gamma are in share-equivalents, vega is dollars per vol point and theta is dollars per calendar day.</p>
+      <h3>Worked example</h3>
+      <p>The textbook example from Hull's <i>Options, Futures, and Other Derivatives</i>: S = 42, K = 40, r = 10%, σ = 20%, T = 0.5 years. The engine's own numbers, which a test checks against this page:</p>
+      <ul>
+        <li><code>d1 = (ln(S/K) + (r + σ²/2)·T) / (σ·√T)</code> = <span data-check="call.d1">0.7693</span>, and <code>d2 = d1 − σ·√T</code> = <span data-check="call.d2">0.6278</span></li>
+        <li><code>N(d1)</code> = <span data-check="call.nd1">0.7791</span>, <code>N(d2)</code> = <span data-check="call.nd2">0.7349</span></li>
+        <li>Call <code>S·N(d1) − K·e<sup>−rT</sup>·N(d2)</code> = <span data-check="call.price">4.76</span>; put <code>K·e<sup>−rT</sup>·N(−d2) − S·N(−d1)</code> = <span data-check="put.price">0.81</span> (Hull: 4.76 and 0.81)</li>
+        <li>Call delta <span data-check="call.delta">0.7791</span>, put delta <span data-check="put.delta">−0.2209</span>, gamma <span data-check="call.gamma">0.0500</span> per share, vega <span data-check="call.vega">0.0881</span> per vol point, theta <span data-check="call.theta">−0.0125</span> per calendar day for the call</li>
+      </ul>
+      <p>Independent checks: a test compares price, delta, gamma, vega and theta with QuantLib on 288 calls and puts (agreement to about 1e-7 of the stock price, the accuracy of the normal CDF approximation used here).</p>
+      <h3>European, not American</h3>
+      <p>Every option is priced as European: exercised only at expiry, with no dividends. That is exact for SPX options, which are European and cash-settled. Options on SPY, QQQ and single stocks are American, and their underlyings pay dividends. We keep the European model on purpose: one closed-form formula gives exact Greeks; it is fast enough to reprice the whole book on every Monte Carlo path and every optimizer candidate in your browser; it is checked against QuantLib above; and an American model would need dividend dates, which illustrative quotes don't have.</p>
+      <p>What it costs, measured with QuantLib (S = 100, r = 4%, σ = 20%, a 2,000-step binomial tree for the American price): an American put is worth more than the European price shown here, about 1% more at the money with 30 days left, 2% more 10% in the money, and about 8% more 20% in the money with six months left. Without dividends an American call is worth the same as a European one; with dividends, exercising a call just before an ex-dividend date can pay. Leaving out a 1.5% dividend yield shifts a 30-day at-the-money price by about 3% (calls lower, puts higher). So expect short puts deep in the money, and short calls just before a dividend, to be assigned early more often than the Assignment exposure list suggests.</p>
+      <p>With the example quotes and the same tree: an SPY put (spot 680, IV 16%) is worth about 1.4% more as American at the money with 30 days left, 3% more 10% in the money, and 11% more 20% in the money with six months left, where exercising at once already pays. For AAPL (spot 260, IV 26%) the same three cases are about 0.8%, 1.4% and 4.6%. Each 1% of dividend yield left out lowers a 30-day at-the-money call by about 2.2% for SPY and 1.4% for AAPL; the quotes carry no dividend yields, so set your own expectation.</p>
+      <h2>Beta and futures</h2>
+      <p>Beta dollars are <code>Σ Δ·S·β</code>. "Gamma, 1% SPX move" is the quadratic term <code>Σ ½·Γ·(S·β·1%)²</code>, an approximation that drifts from full repricing for short-dated or large books. Betas are inputs you set, estimates rather than measured facts, and a beta can rise in a crash, so a hedge sized on them can fall short when it is needed most. ES (50 × SPX) and MES (5 × SPX) are booked as futures at the SPX level, with no basis, roll, margin or cash flows modelled. A one-point SPX rise pays 50 per ES contract.</p>
+      <h2>Hedge sizing</h2>
+      <p>The delta and gamma hedges can be sized without a Greek target. "% of the holding" hedges that share of the underlying's current delta: 50% of a 1,000-share holding sells 500 shares (SPX in MES futures). "Premium budget" buys as many whole ATM option contracts as the budget pays for at the model price, so the premium shown never exceeds it; a budget below one contract proposes nothing. Either one, when filled in, replaces the target.</p>
+      <h2>Monte Carlo</h2>
+      <p>A one-factor model: the market factor has SPX's IV, and each name's log return is <code>β·market + own noise</code>, with the noise sized so total volatility matches the name's IV. If β × SPX IV is above a name's own IV, its market loading is capped at IV ÷ SPX IV so it keeps its IV. Paths are risk-neutral: every price drifts at the risk-free rate, the same assumption the option prices use, so with IV held fixed a fairly priced option has zero expected P&amp;L. Mean P&amp;L and POP therefore carry no equity risk premium. Options are repriced with the time left at the horizon, and the horizon is capped at the nearest option expiry. IV stays fixed unless you set "IV change per 1% SPX move" in the Market card. That setting shifts every option's IV with each path's market move (−1 means IV rises 1 point per 1% drop). It is a single assumption, not a fitted volatility surface. Entry prices don't include it, so once it is set, mean P&amp;L, POP and CVaR lean toward long-vega books (a long ATM straddle shows about +$170 mean P&amp;L over 5 days at −5). Read them as a stress view, not a fair-value expectation. POP is the share of paths with a gain, CVaR 95 is the average loss over the worst 5% of paths, and Sortino is mean P&amp;L over downside deviation at the horizon (target 0, not annualised).</p>
+      <h2>Optimizer</h2>
+      <p>Coordinate search on whole contracts, starting from no hedge and halving the step size. Weights below zero count as zero. Every candidate is scored on the same simulated paths, so differences between candidates are not sampling noise. The objective terms are relative to the unhedged book, where 1.0 means "unchanged".</p>
+      <h2>Cash account</h2>
+      <p>The Cash account card answers "how much cash does this book need?" for a cash account: no margin loan, no short selling. Each position's cash needed is what was paid, minus premium received, plus collateral held. Buying power left is the account cash you enter minus the total.</p>
+      <ul>
+        <li><b>Stock and long options</b> are paid in full at their entry price: shares × price, or contracts × 100 × premium.</li>
+        <li><b>Short put</b>: cash-secured. Collateral is strike × 100 × contracts; the premium received offsets part of it.</li>
+        <li><b>Short call</b>: covered by a long call in the same combo, or by 100 shares of the same underlying per contract (each share covers one call only). Otherwise it is flagged "not allowed" and adds no collateral, because its risk has no limit; its premium does not count as cash either, so it never adds buying power. A spread entered one leg at a time pairs only if the second leg is added to the first one's combo ("Combo" in Add option leg).</li>
+        <li><b>Defined-risk spreads</b>: a short leg covered by a long leg in the same combo (same underlying and type, expiring no earlier) holds the width between the strikes × 100. A combo with one expiry holds at most its maximum loss at expiry, so a vertical credit spread needs width × 100 − net credit, an iron condor only one side's width, and a long butterfly only its debit. Exchange rules allow spreads in a cash account only when they are built from European-style, cash-settled index options, here SPX; a spread on SPY, QQQ or a single stock is flagged as needing a margin account and is still shown at its maximum loss (checked against Cboe and FINRA sources in <code>docs/research/2026-11-13-cash-rules-vs-cboe.md</code>). Legs entered one at a time are separate combos, so each is checked alone; legs with different expiries are not netted further.</li>
+        <li><b>Futures (ES/MES)</b>: initial margin is your own per-contract figure (no default is assumed, so it counts as $0 until set). Futures are flagged because they need a futures-enabled margin account.</li>
+        <li><b>Short stock</b>: flagged "not allowed" in a cash account, with no cash figure.</li>
+        <li><b>Assignment exposure</b>: short legs in the money, or within 7 days of expiry, are listed with the cash (puts: strike × 100 × contracts) or shares (calls: 100 × contracts) that assignment would need.</li>
+      </ul>
+      <h2>Not modelled</h2>
+      <ul>
+        <li>Margin accounts (Reg-T strategy margin or portfolio margin) and the probability of early exercise.</li>
+        <li>American exercise and dividends: see "European, not American" above.</li>
+        <li>Live market data. The quotes are examples you can edit.</li>
+        <li>A volatility skew or smile by strike. The Monte Carlo only has the single spot-vol assumption above.</li>
+        <li>Bid–ask spreads, beyond the optimizer's flat cost per contract.</li>
+      </ul>
+      <p class="caption">Educational tool. Not investment advice. Found a problem or have an idea? <a href="https://github.com/qte77/portfolio-hedger/issues/new/choose" target="_blank" rel="noopener">Open a feedback issue</a>.</p>
+    </div>
+  </section>
+</main>
+
+<div id="tip" class="tip" role="tooltip" hidden></div>
+
+<script type="module" src="vendor/ui-kit/theme.js"></script>
+<script type="module" src="app.js"></script>

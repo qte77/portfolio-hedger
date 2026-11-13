@@ -1,0 +1,91 @@
+/*
+ * layout.css — qte77 UI-branding LAYOUT (EyeRest): spacing, shape, components.
+ *
+ * Hand-authored structural CSS; the token values mirror ../DESIGN.md
+ * (`spacing` / `rounded` / `components`) — keep them in sync. Only eyerest.css is
+ * generated (by scripts/gen_ui_kit.py); this file is not.
+ * Pair with eyerest.css (color) and fonts.css (type). Colors are referenced via tokens
+ * only — never a raw hex here.
+ */
+
+:root {
+  --space-unit: 8px;     /* keep the 8px rhythm even full-bleed */
+  --container: 768px;    /* prose max-width / mobile breakpoint */
+  --radius-sm: 4px;      /* inputs, chips */
+  --radius-md: 6px;      /* buttons, cells */
+  --radius-lg: 12px;     /* cards, panels */
+  --radius-full: 9999px; /* removable filter chips ONLY */
+  --rule-height: 3px;    /* Index Rule bar thickness — fixed, never scales */
+  --rule-width-sm: 24px; /* Index Rule, inline form */
+  --rule-width-lg: 48px; /* Index Rule, card/section top-edge form */
+}
+
+/* Single-column, content-first. Dashboards may go full-bleed but keep the rhythm. */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: calc(2 * var(--space-unit));
+}
+
+/* ---------- Components (compose tokens; recolour wholesale on theme/variant flip) ---------- */
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-on);
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: 6px 16px;
+  font: inherit;
+  cursor: pointer;
+}
+.card {
+  background: var(--surface);
+  color: var(--text);
+  border-radius: var(--radius-lg);
+  padding: calc(2 * var(--space-unit));
+}
+.input {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+}
+code, kbd, samp, pre {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+.caption { color: var(--text-muted); }
+.divider { background: var(--border); height: 1px; border: 0; }
+/* Soft, not round. No pills except removable filter chips. */
+.chip { border-radius: var(--radius-sm); }
+.chip--removable { border-radius: var(--radius-full); }
+
+/* The Index Rule — qte77's one recurring geometric signature (DESIGN.md
+   "The Index Rule"). primary fill, capsule-ended, two fixed lengths only. */
+.index-rule {
+  display: block;
+  height: var(--rule-height);
+  border-radius: calc(var(--rule-height) / 2);
+  background: var(--primary);
+}
+.index-rule--sm { width: var(--rule-width-sm); }
+.index-rule--lg { width: var(--rule-width-lg); }
+
+/* KPI stat tile + callout — dashboard panels. Elevation via the --shadow-card token (eyerest.css). */
+.stat-tile {
+  background: var(--surface);
+  color: var(--text);
+  border-radius: var(--radius-lg);
+  padding: calc(2 * var(--space-unit));
+  box-shadow: var(--shadow-card);
+}
+.stat-tile .stat-num { font-variant-numeric: tabular-nums; }
+.stat-tile .stat-label { color: var(--text-muted); }
+.callout {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: var(--radius-md);
+  padding: calc(1.5 * var(--space-unit)) calc(2 * var(--space-unit));
+}

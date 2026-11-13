@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-hedger",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Options portfolio risk and hedging lab: Black-Scholes Greeks, beta/delta/gamma hedges as real positions, correlated Monte Carlo risk, joint hedge optimizer.",
+  "scripts": {
+    "test": "node --test \"tests/*.test.mjs\"",
+    "build": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
