@@ -1,0 +1,45 @@
+name: Feedback
+description: Tell us what you tried to do, what the app showed, and what you expected.
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying Portfolio Hedger. It is an educational tool with example quotes, not investment advice.
+        Please leave out account numbers, real balances you don't want public, and anything personal.
+  - type: dropdown
+    id: role
+    attributes:
+      label: How do you use options?
+      options:
+        - Individual trader or investor
+        - Adviser or manager for client accounts
+        - Professional trader or fund
+        - Student or learning
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: What were you trying to do?
+      description: For example, size a hedge for a stock holding, or check the cash a book needs.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What did the app show, and what did you expect?
+      description: Numbers, the page (Dashboard, Positions, Hedging, Risk, Method) and the steps help most.
+    validations:
+      required: true
+  - type: textarea
+    id: compare
+    attributes:
+      label: Did you compare it with another tool?
+      description: Optional. Which tool, and how far apart the numbers were.
+  - type: textarea
+    id: missing
+    attributes:
+      label: What is missing for you to use it on a real book?
+      description: Optional.
