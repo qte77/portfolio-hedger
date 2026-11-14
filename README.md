@@ -7,8 +7,8 @@ hedges together. It runs entirely in the browser. The quotes are illustrative ex
 educational tool, not investment advice.
 
 - **Live:** <https://hedger.abizz.dev> (Cloudflare Pages project `portfolio-hedger`, custom domain; production
-  branch `main`, production deployments only). The project's `portfolio-hedger.pages.dev` address serves the same
-  site.
+  branch `main`, production deployments only). The project's `portfolio-hedger.pages.dev` addresses
+  redirect there (301).
 - **Requirements:** [`docs/spec.md`](docs/spec.md), in our own words; what
   was corrected: [plan 0001](docs/plans/2026-10-31-0001-portfolio-hedger-v1.md) (closed); what is open:
   [plan 0002](docs/plans/2026-11-09-0002-portfolio-hedger-v2.md)
