@@ -9,7 +9,7 @@
   <https://hedger.abizz.dev> (Cloudflare Pages project `portfolio-hedger`; its `*.pages.dev` addresses redirect there
   with a 301). The claude.ai artifact copy is at v21.
 - **Shipped in this arc:** #1 public import, #2 plan note, #6 pages.dev redirect recorded, #7 concise README and
-  `CONTRIBUTING.md`; this plan opened in #PRP.
+  `CONTRIBUTING.md`; this plan opened in #8.
 - **Next:** row 1 (agent, gated on reading the Cboe Margin Manual itself). Rows 2–5 are owner rows, each with a
   recommended default.
 - **Loop per item:** see [CONTRIBUTING.md](../../CONTRIBUTING.md#workflow). After a merge that changes `public/`:
