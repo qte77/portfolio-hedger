@@ -11,6 +11,7 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ### Changed (open source)
 
+- README screenshots show each view in full (nothing cut off), Positions with every ledger column, and the Optimizer with a result; `scripts/screenshots.py` retakes them.
 - README order: what, how, why, further reading, licence; seven screenshots of the live site in collapsible sections (`docs/screenshots/`), with how to retake them in `CONTRIBUTING.md`.
 - README rewritten to be short: what the app does, why, how to use it, how to run it, further reading. Build, test, deploy and layout details moved to the new `CONTRIBUTING.md`.
 - The project is public at <https://github.com/qte77/portfolio-hedger>, starting from this tree as one commit.
