@@ -19,7 +19,7 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ### Changed (custom domain)
 
-- The live site is <https://hedger.abizz.dev>, a custom domain on the same Cloudflare Pages project. `portfolio-hedger.pages.dev` still serves it.
+- The live site is <https://hedger.abizz.dev>, a custom domain on the same Cloudflare Pages project. `portfolio-hedger.pages.dev` and its per-deploy addresses redirect to it (301).
 
 ### Changed (persona results labelled as simulated)
 
