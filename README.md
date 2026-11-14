@@ -18,14 +18,62 @@ The quotes are editable examples, not live data. It is an educational tool, not 
 - **Cash account:** what the book needs in cash, buying power left, and assignment exposure.
 - **Your data stays local:** the book lives in this browser's storage; export and import it as JSON.
 
-## Why
+### Screenshots
 
-A book of several strategies can look neutral leg by leg and still carry a large combined gamma, vega or market
-exposure. Portfolio Hedger prices every leg, adds the exposures up across the whole book, and treats each hedge as a
-real position, so every view shows its effect, side effects and cost. The method, assumptions and limits are on the
-app's **Method** page.
+The example book in the dark theme (desktop at 1280×800, phone as an iPhone 13).
 
-## How to use it
+<details>
+<summary>Dashboard: exposures of the whole book</summary>
+
+<img src="docs/screenshots/dashboard.png" alt="Dashboard: exposures of the whole book">
+
+</details>
+
+<details>
+<summary>Positions: the one ledger, with combos and subtotals</summary>
+
+<img src="docs/screenshots/positions.png" alt="Positions: the one ledger, with combos and subtotals">
+
+</details>
+
+<details>
+<summary>Hedging: delta, gamma and SPX-beta hedges with before/after</summary>
+
+<img src="docs/screenshots/hedge.png" alt="Hedging: delta, gamma and SPX-beta hedges with before/after">
+
+</details>
+
+<details>
+<summary>Risk: Monte Carlo probability of profit, CVaR and Sortino</summary>
+
+<img src="docs/screenshots/risk.png" alt="Risk: Monte Carlo probability of profit, CVaR and Sortino">
+
+</details>
+
+<details>
+<summary>Surface: P&L repriced over SPX move and IV shift</summary>
+
+<img src="docs/screenshots/surface.png" alt="Surface: P&L repriced over SPX move and IV shift">
+
+</details>
+
+<details>
+<summary>Optimizer: weights, limits and costs for a joint futures and option hedge search</summary>
+
+<img src="docs/screenshots/optimizer.png" alt="Optimizer: weights, limits and costs for a joint futures and option hedge search">
+
+</details>
+
+<details>
+<summary>On a phone: the Dashboard</summary>
+
+<img src="docs/screenshots/phone-dashboard.png" alt="On a phone: the Dashboard" width="320">
+
+</details>
+
+## How
+
+### Use it
 
 1. Open <https://hedger.abizz.dev>; the example book loads.
 2. **Positions:** select **Clear ledger** and enter your own stocks and option legs, or use **Strategy builder**
@@ -37,7 +85,7 @@ app's **Method** page.
 Views are hash routes (`#dashboard`, `#positions`, `#builder`, `#hedge`, `#risk`, `#surface`, `#optimizer`, `#method`);
 `?theme=light|dark|system` sets the theme.
 
-## Run it locally
+### Run it locally
 
 ```sh
 make validate   # lint, engine tests, QuantLib cross-check, build into dist/ (same as CI)
@@ -46,6 +94,13 @@ make e2e        # headless UI check of the built dist/
 
 Needs Node and [`uv`](https://docs.astral.sh/uv/). Every target, variable and the deploy setup are in
 [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Why
+
+A book of several strategies can look neutral leg by leg and still carry a large combined gamma, vega or market
+exposure. Portfolio Hedger prices every leg, adds the exposures up across the whole book, and treats each hedge as a
+real position, so every view shows its effect, side effects and cost. The method, assumptions and limits are on the
+app's **Method** page.
 
 ## Further reading
 
