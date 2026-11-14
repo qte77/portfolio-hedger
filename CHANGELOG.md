@@ -7,6 +7,7 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ### Changed (open source)
 
+- README rewritten to be short: what the app does, why, how to use it, how to run it, further reading. Build, test, deploy and layout details moved to the new `CONTRIBUTING.md`.
 - The project is public at <https://github.com/qte77/portfolio-hedger>, starting from this tree as one commit.
 - Apache-2.0 `LICENSE`. `docs/spec.md` states the requirements in our own words; the received description and the v0 prototype are no longer in the repository. Links to private repositories and to the private artifact are gone.
 - Method page: a link to open a feedback issue (template in `.github/ISSUE_TEMPLATE/`).

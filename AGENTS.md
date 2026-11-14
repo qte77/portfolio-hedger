@@ -1,5 +1,7 @@
 # Agent instructions
 
+Commands, make targets and the PR workflow: [CONTRIBUTING.md](CONTRIBUTING.md).
+
 - Start from the newest plan in `docs/plans/`: its opening status lists what shipped, what is next and the owner
   gates; its remaining-work table is the only list of open work.
 - Gate before any push: `make validate` (lint, tests, build, the same as CI). For UI changes, also run `make e2e` (it serves
