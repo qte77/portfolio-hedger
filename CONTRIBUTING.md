@@ -36,6 +36,7 @@ How to build, test and deploy Portfolio Hedger. What the app is: [README.md](REA
 | `URL` | `$(CURDIR)/dist` |
 | `POLYFETCH` | `../polyfetch-scrape` |
 | `SHOTS` | `./e2e-shots` |
+| `E2E_PY` | `uv run --directory $(POLYFETCH) python` (the Python that runs `scripts/e2e.py`; CI passes one with a pinned patchright) |
 
 `make e2e` uses the patchright Chromium from [qte77/polyfetch-scrape](https://github.com/qte77/polyfetch-scrape),
 checked out next to this repo; install it once with `uv run --directory ../polyfetch-scrape patchright install
