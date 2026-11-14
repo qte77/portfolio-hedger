@@ -7,7 +7,8 @@ repo. Results so far: [2026-11-02-persona-evaluation.md](2026-11-02-persona-eval
 - Everything below is our own paraphrase. The verbatim, per-quote-sourced evidence stays in that repo's local
   findings files, `findings/2026-11-02T021000Z-portfolio-hedger-findings.md` (Personas 1–4) and
   `findings/2026-11-02T130000Z-portfolio-hedger-icp2-findings.md` (professional buyers, Persona 5).
-- Sources are linked by thread; no poster is named here.
+- Sources are linked by thread, and the text names no poster. Two links, a public FINRA comment letter and a published
+  podcast episode, carry the speaker's name in their URL.
 - Public summaries of both research runs, in our own words with every source linked:
   [2026-11-02-persona-evaluation.md](2026-11-02-persona-evaluation.md) (Personas 1–4) and
   [2026-11-02-icp2-professional-buyers.md](2026-11-02-icp2-professional-buyers.md) (Persona 5).
