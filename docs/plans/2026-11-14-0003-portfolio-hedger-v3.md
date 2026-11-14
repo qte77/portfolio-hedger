@@ -10,10 +10,20 @@
   with a 301). The claude.ai artifact copy is at v21.
 - **Shipped in this arc:** #1 public import, #2 plan note, #6 pages.dev redirect recorded, #7 concise README and
   `CONTRIBUTING.md`; this plan opened in #8.
-- **Next:** row 1 (agent, gated on reading the Cboe Margin Manual itself). Rows 2–5 are owner rows, each with a
-  recommended default.
+- **Next:** row 1 once the Cboe Margin Manual can be read (agent). Rows 2–5 are owner rows, each with a recommended
+  default; row 5's default and, once validated, row 4 become agent work when the owner says go.
 - **Loop per item:** see [CONTRIBUTING.md](../../CONTRIBUTING.md#workflow). After a merge that changes `public/`:
   `make deploy` from `main`, then republish the artifact from `public/`. Strike the row in the PR that ships it.
+- **Parallel work (subagents in worktrees):**
+  - Every agent row runs in its own git worktree with its own branch and PR (a subagent with worktree isolation, or
+    `git worktree add ../portfolio-hedger-wt-<topic> -b <branch> main`). Never two rows in one checkout.
+  - Rows touching different files can run at the same time. Row 1 touches `public/engine.js`, `tests/engine.test.mjs`
+    and `docs/research/2026-11-13-cash-rules-vs-cboe.md`; row 5 only `docs/research/`; row 4 would touch
+    `public/engine.js`, `public/app.js` and `public/index.html`, so it does not run alongside row 1.
+  - Every PR also edits this plan's table and `CHANGELOG.md`: each PR strikes only its own row, and the PR merged
+    second rebases on `main` first.
+  - One subagent at a time runs `make e2e`: Chromium needs the memory. The main session merges, deploys once after
+    the last `public/` change, and removes each worktree and branch after its merge.
 - **Owner gates:** the `owner` rows in the table. Decide-by-default: each carries a recommended default.
 - **Watch-outs:**
   - CodeFactor is a required check and fails on complex functions: keep functions small (`cashRequirement` was split

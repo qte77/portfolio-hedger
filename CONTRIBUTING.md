@@ -41,6 +41,20 @@ How to build, test and deploy Portfolio Hedger. What the app is: [README.md](REA
 checked out next to this repo; install it once with `uv run --directory ../polyfetch-scrape patchright install
 chromium`. Set `PLAYWRIGHT_BROWSERS_PATH` if the browsers live elsewhere.
 
+## README screenshots
+
+`docs/screenshots/` holds the README images, taken from the live site with the polyfetch CLI. Retake them after a
+visible UI change, for example:
+
+```sh
+uv run --directory ../polyfetch-scrape polyfetch fetch "https://hedger.abizz.dev/?theme=dark#hedge" --tier patchright \
+  --viewport 1280x800 --color-scheme dark --wait-until networkidle --screenshot viewport \
+  --screenshot-out "$PWD/docs/screenshots/hedge.png"
+```
+
+The phone image uses `--device "iPhone 13"` instead of `--viewport`. Paths must be absolute: `--directory` changes
+the working directory.
+
 ## Deploy
 
 Copy [`.env.example`](.env.example) to `.env` (gitignored). Only `make deploy` reads it.
