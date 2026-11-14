@@ -1,6 +1,6 @@
 """Full-page README screenshots of the live site, so no view is cut off.
 
-Run: uv run --directory ../polyfetch-scrape python "$PWD/scripts/screenshots.py" "$PWD/docs/screenshots"
+Run: uv run --directory ../polyfetch-scrape python "$PWD/scripts/screenshots.py" "$PWD/assets/screenshots"
 """
 import sys
 from pathlib import Path
