@@ -118,6 +118,9 @@ def run(browser, device: str, theme: str) -> None:
 
         # Cash account (#3): the book's collateral is shown per position, and buying power appears once cash is set.
         check(page.locator("#ledger td", has_text="$").count() > 0, "ledger has no collateral column")
+        # Every flag tag has a label: an unmapped engine flag once showed as "undefined".
+        check("undefined" not in page.inner_text("#ledger"), "ledger shows an unlabelled flag (\"undefined\")")
+        check("needs margin account" in page.inner_text("#ledger"), "spreads off SPX are not flagged as needing a margin account")
         page.fill("#acct-cash", "500000")
         page.locator("#acct-cash").dispatch_event("change")
         page.wait_for_timeout(200)

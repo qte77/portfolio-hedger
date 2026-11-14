@@ -5,6 +5,10 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Fixed (ledger flag label)
+
+- The ledger showed "undefined" next to spreads on SPY, QQQ or single stocks: the flag added for spreads that need a margin account had no label. It now reads "needs margin account" (warning style), and an unlabelled flag falls back to its own name. e2e checks that the ledger never shows "undefined". Found while retaking the README screenshots.
+
 ### Changed (open source)
 
 - README order: what, how, why, further reading, licence; seven screenshots of the live site in collapsible sections (`docs/screenshots/`), with how to retake them in `CONTRIBUTING.md`.
