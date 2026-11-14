@@ -1,6 +1,9 @@
 # Plan 0002: Portfolio Hedger v2 (cash account, independent checks, ledger export)
 
-## Status (read this first)
+## Status: closed 2026-11-14
+
+Open work moved to [plan 0003](2026-11-14-0003-portfolio-hedger-v3.md); start there. This plan is kept as the record
+of v2.
 
 - **Arc goal:** answer requirements Q9 (how much cash the book needs) for a cash account, check the
   pricing engine against independent references, and give the ledger a lossless export and import. Then run the
@@ -10,8 +13,8 @@
 - **Shipped in this arc:** #32 (closed plan 0001, opened this plan); #3 cash account (row 1, #33; artifact v12); #7 A–C independent checks (rows 2–4, #34; artifact v13); #17 ledger export/import (row 5, #35; artifact v14); #36 import security fix (plain ticker symbols only,
   symbols escaped in the page; found by an automated security review of #35; artifact v15). Persona 5 card and live run (row 6, #39); hedge-policy issue #40 (row 7); #19 hedge sizing by % or premium budget (row 8, #41; artifact v16). From a second-opinion review: cash pairing for legs entered one at a time (row 14, #43), a sticky Instrument column on a phone (row 15, #44), a deploy guard and e2e in CI (rows 16–17, #45). The European-vs-American pricing decision on the Method page (row 19, #48). The Dashboard warns when futures margin is unset (row 21, #51). Persona results labelled as simulated (row 22, #52). Row 12 (a)–(c) in #54 (live and artifact v20). The public repository is <https://github.com/qte77/portfolio-hedger>, started from a cleaned copy of this tree (row 20, #55). Since 2026-11-13 the live site is <https://hedger.abizz.dev> (custom domain on the Pages project, added by the owner; #53).
 - **Public repository (2026-11-13):** development continues in <https://github.com/qte77/portfolio-hedger>, which starts from the cleaned tree as one commit (#1 there). PR and issue numbers elsewhere in this plan refer to the earlier development repository.
-- **Next:** every agent row has shipped. The open rows of the [remaining-work table](#remaining-work) are owner rows
-  for one sitting (Phase B), each with a recommended default; row 23 (hide pages.dev) is done.
+- **Closed:** every row is shipped or moved to plan 0003 (rows 10 and 11, and the two cash rules left unverified in
+  row 12).
 - **Loop per item:** branch by topic → tests first for engine work (`tests/engine.test.mjs`) → `make validate` (the
   same gate as CI) → for UI changes `make build` + `make e2e`, then look at the screenshots → commit by topic → PR →
   squash-merge when CI is green → `make deploy` from `main` → republish the artifact from `public/` → strike the row
@@ -79,9 +82,9 @@ The only list of open work in this plan. Strike a row in the PR that ships it.
 | 7 | ~~Hedge-policy band and client summary (advisory)~~ | A | agent | a GitHub issue opened from the ICP2 pattern (pre-set hedge sizing rules reported to clients), marked advisory: validate before building | shipped: #40 opened (advisory) |
 | 8 | ~~#19 dollar or % hedge sizing (advisory)~~ | A | agent | per #19: delta and gamma cards accept a premium budget or a % of a holding; validated with a persona or user test before expanding | shipped: #41 (closes #19); validation before expanding stays advisory |
 | 9 | ~~Findings backup~~ | B | owner | a generalized public record of both research runs in `docs/research/`, in our own words with every source linked (`2026-11-02-persona-evaluation.md`, `2026-11-02-icp2-professional-buyers.md`); verbatim quotes stay out of the repo, which will go public. A private copy of the raw files is optional and not tracked here | shipped: #47 |
-| 10 | #7 D: broker-platform benchmark (optional) | B | owner | the example book rebuilt in thinkorswim (or similar); Greeks and beta dollars agree within a stated tolerance; result in `docs/` | deferred (owner, 2026-11-13) |
-| 11 | Brand chart colours | B | owner | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | deferred (owner, 2026-11-11): both stay open upstream; out of the owner sitting; revisit when either closes |
-| 12 | ~~Professional evidence~~, #21 and #40 (merged; was rows 12 and 13) | B | owner | no real advisers or traders are available, so: (a) check the engine against primary sources instead of personas (cash-account rules against Cboe and FINRA sources; the European-vs-American price gap for SPY and AAPL with QuantLib); (b) a feedback issue template and a link from the app; (c) from #40, only the one-line "betas are estimates" Method note. Owner 2026-11-13: do (a) to (c) | shipped: #54 did (a), (b)'s template and (c), #55 the in-app feedback link; `docs/research/2026-11-13-cash-rules-vs-cboe.md` (spreads off SPX need a margin account: fixed; two rules unverified; the manual itself not opened). |
+| 10 | #7 D: broker-platform benchmark (optional) | B | owner | the example book rebuilt in thinkorswim (or similar); Greeks and beta dollars agree within a stated tolerance; result in `docs/` | moved: plan 0003 row 2 (deferred, owner, 2026-11-13) |
+| 11 | Brand chart colours | B | owner | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | moved: plan 0003 row 3 (deferred, owner, 2026-11-11) |
+| 12 | ~~Professional evidence~~, #21 and #40 (merged; was rows 12 and 13) | B | owner | no real advisers or traders are available, so: (a) check the engine against primary sources instead of personas (cash-account rules against Cboe and FINRA sources; the European-vs-American price gap for SPY and AAPL with QuantLib); (b) a feedback issue template and a link from the app; (c) from #40, only the one-line "betas are estimates" Method note. Owner 2026-11-13: do (a) to (c) | shipped: #54 did (a), (b)'s template and (c), #55 the in-app feedback link; `docs/research/2026-11-13-cash-rules-vs-cboe.md` (spreads off SPX need a margin account: fixed; two rules unverified; the manual itself not opened: moved to plan 0003 row 1). |
 | 14 | ~~Legs entered one at a time: cash pairing~~ | A | agent | a call spread entered as two legs never adds buying power (test); a leg can join an existing combo from Add option leg (e2e) | shipped: #43 |
 | 15 | ~~Wider ledger with the Collateral column~~ | A | agent | no page overflow (e2e); on a phone the Instrument column stays in view while the ledger scrolls sideways | shipped: #44 |
 | 16 | ~~`make deploy` re-runs validate~~ | A | agent | validate stays (the local tree is what ships); deploy also refuses a dirty tree or a `main` that differs from `origin/main` | shipped: #45 |
