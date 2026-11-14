@@ -9,7 +9,7 @@
   <https://hedger.abizz.dev> (Cloudflare Pages project `portfolio-hedger`; its `*.pages.dev` addresses redirect there
   with a 301). The claude.ai artifact copy is at v21.
 - **Shipped in this arc:** #1 public import, #2 plan note, #6 pages.dev redirect recorded, #7 concise README and
-  `CONTRIBUTING.md`; this plan opened in #8; #9 README screenshots and parallel-work notes; the ledger's "undefined" flag label fixed in #10.
+  `CONTRIBUTING.md`; this plan opened in #8; #9 README screenshots and parallel-work notes; the ledger's "undefined" flag label fixed in #10 (artifact v22); full-view README screenshots in #PRS.
 - **Next:** row 1 once the Cboe Margin Manual can be read (agent). Rows 2–5 are owner rows, each with a recommended
   default; row 5's default and, once validated, row 4 become agent work when the owner says go.
 - **Loop per item:** see [CONTRIBUTING.md](../../CONTRIBUTING.md#workflow). After a merge that changes `public/`:
@@ -46,7 +46,7 @@
 | Hedges, scenarios, risk | `engine.js`: `deltaHedge`, `gammaHedge`, `betaHedge`, `stressTable`, `payoffCurve`, `surfaceGrid`, `simulate`, `pnlPaths`, `riskStats`, `optimizeHedge` |
 | Engine behaviour spec | `tests/engine.test.mjs` (`node --test`); QuantLib fixture `tests/fixtures/quantlib-bs.json` |
 | UI | `public/app.js` (state in `localStorage` `portfolio-hedger:v1`; `render*` per view; routing in `VIEWS`), `public/index.html` (Method page is `#view-method`) |
-| Build, checks, CI | `scripts/build.mjs` (CSP), `scripts/e2e.py`, `scripts/reference.py`, `.github/workflows/ci.yml`; targets in [CONTRIBUTING.md](../../CONTRIBUTING.md) |
+| Build, checks, CI | `scripts/build.mjs` (CSP), `scripts/e2e.py`, `scripts/reference.py`, `scripts/screenshots.py` (README images), `.github/workflows/ci.yml`; targets in [CONTRIBUTING.md](../../CONTRIBUTING.md) |
 | Requirements and research | `docs/spec.md`; `docs/research/` (personas, persona runs, professional buyers, cash rules vs Cboe) |
 | Issues | #3 broker benchmark, #4 research gap, #5 hedge policy (advisory) |
 

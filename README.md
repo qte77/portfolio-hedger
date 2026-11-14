@@ -20,7 +20,8 @@ The quotes are editable examples, not live data. It is an educational tool, not 
 
 ### Screenshots
 
-The example book in the dark theme (desktop at 1280×800, phone as an iPhone 13).
+The example book in the dark theme, each view in full (desktop 1280 px wide; Positions at 1600 px so every ledger
+column fits; phone 390 px).
 
 <details>
 <summary>Dashboard: exposures of the whole book</summary>
@@ -30,9 +31,9 @@ The example book in the dark theme (desktop at 1280×800, phone as an iPhone 13)
 </details>
 
 <details>
-<summary>Positions: the one ledger, with combos and subtotals</summary>
+<summary>Positions: the ledger with combos and collateral, cash account, export and import, market quotes</summary>
 
-<img src="docs/screenshots/positions.png" alt="Positions: the one ledger, with combos and subtotals">
+<img src="docs/screenshots/positions.png" alt="Positions: the ledger with combos and collateral, cash account, export and import, market quotes">
 
 </details>
 
@@ -58,9 +59,9 @@ The example book in the dark theme (desktop at 1280×800, phone as an iPhone 13)
 </details>
 
 <details>
-<summary>Optimizer: weights, limits and costs for a joint futures and option hedge search</summary>
+<summary>Optimizer: a joint futures and option hedge search with its result</summary>
 
-<img src="docs/screenshots/optimizer.png" alt="Optimizer: weights, limits and costs for a joint futures and option hedge search">
+<img src="docs/screenshots/optimizer.png" alt="Optimizer: a joint futures and option hedge search with its result">
 
 </details>
 

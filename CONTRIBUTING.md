@@ -43,17 +43,15 @@ chromium`. Set `PLAYWRIGHT_BROWSERS_PATH` if the browsers live elsewhere.
 
 ## README screenshots
 
-`docs/screenshots/` holds the README images, taken from the live site with the polyfetch CLI. Retake them after a
-visible UI change, for example:
+`docs/screenshots/` holds the README images: every view of the live site in full, taken with
+[`scripts/screenshots.py`](scripts/screenshots.py) through polyfetch's browser. Retake them after a visible UI change:
 
 ```sh
-uv run --directory ../polyfetch-scrape polyfetch fetch "https://hedger.abizz.dev/?theme=dark#hedge" --tier patchright \
-  --viewport 1280x800 --color-scheme dark --wait-until networkidle --screenshot viewport \
-  --screenshot-out "$PWD/docs/screenshots/hedge.png"
+uv run --directory ../polyfetch-scrape python "$PWD/scripts/screenshots.py" "$PWD/docs/screenshots"
 ```
 
-The phone image uses `--device "iPhone 13"` instead of `--viewport`. Paths must be absolute: `--directory` changes
-the working directory.
+Positions is taken 1600 px wide with the page column widened, so every ledger column shows; the Optimizer shot runs
+one search first so its result is visible.
 
 ## Deploy
 
@@ -76,7 +74,7 @@ public/            the app, and the claude.ai artifact source (index.html has no
   app.js, app.css  UI: state, hash routing, SVG charts
   vendor/          qte77 brand ui-kit, fonts, logo (make vendor; not edited here)
 tests/             engine behaviour spec (node --test) and the QuantLib fixture
-scripts/           build.mjs (build + CSP), e2e.py (headless UI check), reference.py (QuantLib)
+scripts/           build.mjs (build + CSP), e2e.py (headless UI check), reference.py (QuantLib), screenshots.py (README images)
 docs/              spec.md (requirements), plans/, research/
 ```
 
