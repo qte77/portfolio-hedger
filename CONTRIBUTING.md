@@ -36,6 +36,7 @@ How to build, test and deploy Portfolio Hedger. What the app is: [README.md](REA
 | `URL` | `$(CURDIR)/dist` |
 | `POLYFETCH` | `../polyfetch-scrape` |
 | `SHOTS` | `./e2e-shots` |
+| `E2E_PY` | `uv run --directory $(POLYFETCH) python` (the Python that runs `scripts/e2e.py`; CI passes one with a pinned patchright) |
 
 `make e2e` uses the patchright Chromium from [qte77/polyfetch-scrape](https://github.com/qte77/polyfetch-scrape),
 checked out next to this repo; install it once with `uv run --directory ../polyfetch-scrape patchright install
@@ -43,11 +44,11 @@ chromium`. Set `PLAYWRIGHT_BROWSERS_PATH` if the browsers live elsewhere.
 
 ## README screenshots
 
-`docs/screenshots/` holds the README images: every view of the live site in full, taken with
+`assets/screenshots/` holds the README images: every view of the live site in full, taken with
 [`scripts/screenshots.py`](scripts/screenshots.py) through polyfetch's browser. Retake them after a visible UI change:
 
 ```sh
-uv run --directory ../polyfetch-scrape python "$PWD/scripts/screenshots.py" "$PWD/docs/screenshots"
+uv run --directory ../polyfetch-scrape python "$PWD/scripts/screenshots.py" "$PWD/assets/screenshots"
 ```
 
 Positions is taken 1600 px wide with the page column widened, so every ledger column shows; the Optimizer shot runs
@@ -76,6 +77,7 @@ public/            the app, and the claude.ai artifact source (index.html has no
 tests/             engine behaviour spec (node --test) and the QuantLib fixture
 scripts/           build.mjs (build + CSP), e2e.py (headless UI check), reference.py (QuantLib), screenshots.py (README images)
 docs/              spec.md (requirements), plans/, research/
+assets/screenshots/ README images (scripts/screenshots.py)
 ```
 
 - **State:** the ledger and quotes are kept in the browser's `localStorage` (`portfolio-hedger:v1`); the theme choice

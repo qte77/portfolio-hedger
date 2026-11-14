@@ -26,49 +26,49 @@ column fits; phone 390 px).
 <details>
 <summary>Dashboard: exposures of the whole book</summary>
 
-<img src="docs/screenshots/dashboard.png" alt="Dashboard: exposures of the whole book">
+<img src="assets/screenshots/dashboard.png" alt="Dashboard: exposures of the whole book">
 
 </details>
 
 <details>
 <summary>Positions: the ledger with combos and collateral, cash account, export and import, market quotes</summary>
 
-<img src="docs/screenshots/positions.png" alt="Positions: the ledger with combos and collateral, cash account, export and import, market quotes">
+<img src="assets/screenshots/positions.png" alt="Positions: the ledger with combos and collateral, cash account, export and import, market quotes">
 
 </details>
 
 <details>
 <summary>Hedging: delta, gamma and SPX-beta hedges with before/after</summary>
 
-<img src="docs/screenshots/hedge.png" alt="Hedging: delta, gamma and SPX-beta hedges with before/after">
+<img src="assets/screenshots/hedge.png" alt="Hedging: delta, gamma and SPX-beta hedges with before/after">
 
 </details>
 
 <details>
 <summary>Risk: Monte Carlo probability of profit, CVaR and Sortino</summary>
 
-<img src="docs/screenshots/risk.png" alt="Risk: Monte Carlo probability of profit, CVaR and Sortino">
+<img src="assets/screenshots/risk.png" alt="Risk: Monte Carlo probability of profit, CVaR and Sortino">
 
 </details>
 
 <details>
 <summary>Surface: P&L repriced over SPX move and IV shift</summary>
 
-<img src="docs/screenshots/surface.png" alt="Surface: P&L repriced over SPX move and IV shift">
+<img src="assets/screenshots/surface.png" alt="Surface: P&L repriced over SPX move and IV shift">
 
 </details>
 
 <details>
 <summary>Optimizer: a joint futures and option hedge search with its result</summary>
 
-<img src="docs/screenshots/optimizer.png" alt="Optimizer: a joint futures and option hedge search with its result">
+<img src="assets/screenshots/optimizer.png" alt="Optimizer: a joint futures and option hedge search with its result">
 
 </details>
 
 <details>
 <summary>On a phone: the Dashboard</summary>
 
-<img src="docs/screenshots/phone-dashboard.png" alt="On a phone: the Dashboard" width="320">
+<img src="assets/screenshots/phone-dashboard.png" alt="On a phone: the Dashboard" width="320">
 
 </details>
 
