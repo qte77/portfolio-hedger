@@ -145,8 +145,11 @@ const FLAG_TEXT = {
   spread: "spread",
   "futures-account": "futures account",
   "futures-margin-unset": "margin not set",
+  "spread-margin-account": "needs margin account",
 };
-const flagTags = (flags) => flags.map((f) => `<span class="tag${f.startsWith("naked") || f === "short-stock" ? " warn" : ""}">${FLAG_TEXT[f]}</span>`).join(" ");
+const WARN_FLAGS = new Set(["naked-call", "short-stock", "spread-margin-account"]);
+// Reason: an engine flag without a label here must still read as itself, never as "undefined".
+const flagTags = (flags) => flags.map((f) => `<span class="tag${WARN_FLAGS.has(f) ? " warn" : ""}">${FLAG_TEXT[f] ?? f}</span>`).join(" ");
 
 // ---------- shared UI helpers ----------
 const table = (head, rows, numCols = []) =>
