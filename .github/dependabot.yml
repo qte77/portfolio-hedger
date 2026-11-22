@@ -1,0 +1,12 @@
+# Weekly GitHub Actions updates as one grouped PR. There are no npm dependencies to track.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(ci)"
+    groups:
+      github-actions:
+        patterns: ["*"]

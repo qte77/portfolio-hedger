@@ -28,12 +28,11 @@ jobs:
       - name: Lint, test, QuantLib cross-check, build
         run: make validate
 
-  # The headless UI check (scripts/e2e.py) on the built dist/, served from disk. Non-blocking while it proves stable
-  # in CI; locally `make e2e` stays the gate for UI changes.
+  # The headless UI check (scripts/e2e.py) on the built dist/, served from disk. A failure fails the run; locally
+  # `make e2e` stays the gate for UI changes.
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    continue-on-error: true
     env:
       E2E_PY: uv run --no-project --with patchright==1.63.0 python
     steps:
