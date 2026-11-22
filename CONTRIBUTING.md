@@ -34,7 +34,7 @@ How to build, test and deploy Portfolio Hedger. What the app is: [README.md](REA
 | `PROJECT` | `portfolio-hedger` |
 | `PORT` | `8788` |
 | `URL` | `$(CURDIR)/dist` |
-| `POLYFETCH` | `../polyfetch-scrape` |
+| `POLYFETCH` | `../polyfetch-scrape` (relative to the checkout: in a git worktree, pass the path to the polyfetch-scrape checkout) |
 | `SHOTS` | `./e2e-shots` |
 | `E2E_PY` | `uv run --directory $(POLYFETCH) python` (the Python that runs `scripts/e2e.py`; CI passes one with a pinned patchright) |
 
