@@ -378,6 +378,14 @@ test("Cash account: only spreads of European-style, cash-settled index options (
   assert.equal(spy.notAllowed, 0, "flagged, not counted as not allowed");
 });
 
+test("Cash account: a spread whose long leg expires later (calendar, diagonal) needs a margin account, even on SPX", () => {
+  const diag = [opt("SPX", "put", 6800, -1, 6, { gid: 9 }), opt("SPX", "put", 6790, 1, 4, { days: 60, gid: 9 })];
+  const c = cashRequirement(diag, defaultMarket());
+  assert.ok(c.positions[0].flags.includes("spread-margin-account"), "Cboe cash-account spreads need all legs to expire together");
+  near(c.positions[0].collateral, 10 * 100, 1e-9, "still shown at its width");
+  assert.equal(c.notAllowed, 0, "flagged, not counted as not allowed");
+});
+
 test("Cash account: an iron condor holds the maximum loss of the whole structure, not both sides", () => {
   const m = defaultMarket();
   const ic = buildStrategy("Iron condor", { sym: "NVDA", spot: 200, width: 10, qty: 2, days: 30, iv: 45, r: m.r }).map((l) => ({ ...l, gid: 5 }));

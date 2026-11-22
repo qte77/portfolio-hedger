@@ -3,14 +3,17 @@
 Plan 0002 row 12(a): the cash-account rules in `cashRequirement` (`public/engine.js`) compared with what Cboe and FINRA
 publish about cash accounts, in our own words.
 
-**How it was checked, and its limit.** The Cboe Margin Manual PDF could not be opened from this machine, so each rule
-was checked against the text of Cboe and FINRA pages as returned by a web search. A rule marked "agrees" is
-consistent with those excerpts; it was not read against the full manual. Re-check against the manual itself before
-relying on this for anything beyond education.
+**How it was checked, and its limit.** On 2026-11-22 the Cboe Margin Manual PDF was fetched and read as text
+(63 PDF pages; page numbers below are the manual's printed ones, which are the PDF page minus one). The first pass on
+2026-11-13 could not open it and used Cboe and FINRA pages from a web search; the rows marked "agrees" below still rest
+on those pages and on the manual's cash-account columns where cited. The copy read carries no edition date, so it may
+differ from the November 2021 edition named in the link. This is an education-grade check by a non-lawyer, not
+compliance advice. Broker rules can be stricter than the exchange's.
 
 Sources:
 
-- [Cboe Margin Manual (November 2021)](https://cdn.cboe.com/resources/membership/Margin_Manual.pdf), not opened here.
+- [Cboe Margin Manual (November 2021)](https://cdn.cboe.com/resources/membership/Margin_Manual.pdf), read in full on 2026-11-22 for the
+  cash-account columns (spread table p. 9, short underlying tables pp. 6 and 12).
 - [Cboe: strategy-based margin](https://www.cboe.com/us/options/strategy_based_margin), cash-account spreads.
 - [FINRA Notice to Members 01-11](https://www.finra.org/rules-guidance/notices/01-11), the 2001 change that let
   certain spreads into the cash account.
@@ -25,8 +28,8 @@ Sources:
 | A short leg covered by a long leg (a spread) may be held in the cash account | **differs, fixed** | Exchange rules let spreads into a cash account only when they are made of European-style, cash-settled index options (Cboe page; FINRA 01-11). Of the app's underlyings that is SPX only. Spreads on SPY, QQQ or single stocks now carry a `spread-margin-account` flag and a Positions note that they need a margin account; they are still shown at their maximum loss. Engine test first. |
 | An eligible spread holds its maximum loss: width × 100 minus the net credit; a debit spread is paid in full | agrees | Cash covering the maximum risk less the net credit for a credit spread; the net debit paid in full for a debit spread (Cboe page). |
 | An iron condor holds one side's width; a long butterfly only its debit | agrees, by the rule above | Follows from "maximum risk"; the excerpts name butterflies and boxes, not iron condors. |
-| A long leg that expires later than the short leg covers it | **unverified** | The excerpts describe spreads whose legs all expire together; whether a later-expiring long leg may cover a short in a cash account was not confirmed. The engine keeps its rule. |
-| Short stock is not allowed | **unverified here** | A short sale belongs in a margin account under Regulation T, not in the options sources checked. |
+| A long leg that expires later than the short leg covers it | **differs, fixed** | The manual's cash-account column for spreads (p. 9) allows only European-style, cash-settled index options "all of which expire at the same time"; its footnote 4 (p. 9) warns that in a calendar spread of European options the long cannot be exercised if the short is assigned. The margin-account spread conditions (p. 9) do let the short expire on or before the long, so a calendar or diagonal needs a margin account. The engine still pairs a later-expiring long with a short and shows its width as collateral, but now flags the spread `spread-margin-account`. Engine test first. |
+| Short stock is not allowed | **agrees** | Regulation T 220.8(a) lists what a cash account may do: sales only of securities held or promised to be deposited, and covered options; short sales are in 220.12(c), which sets a 150% requirement for the margin account. The Cboe tables for options on a short underlying (pp. 6 and 12) say "Not permitted" in the cash-account column. The engine flags short stock `short-stock` and counts it as not allowed. |
 
-What changed: one engine rule (spreads on underlyings other than SPX need a margin account), with its test, the
-Positions note and the Method page's "Defined-risk spreads" item.
+What changed: two engine rules, each with its test: spreads on underlyings other than SPX need a margin account
+(2026-11-13), and so do spreads whose long leg expires later than the short (2026-11-22).

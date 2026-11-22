@@ -9,6 +9,10 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 - A URL hash that names an inherited object key (`#constructor`, `#__proto__`) blanked the page or threw; any hash that is not a view now falls back to the dashboard. e2e opens both. Also clears CodeQL alert #1.
 
+### Fixed (cash-account calendar spreads)
+
+- Read against the Cboe Margin Manual: a cash account takes spreads only when all legs expire at the same time, so a spread whose long leg expires later (calendar or diagonal), even on SPX, is now flagged "needs margin account". Its collateral is unchanged. Short stock in a cash account was confirmed against Regulation T. The research note records both with page references.
+
 ### Changed (CI)
 
 - The e2e CI job now fails the run when the UI check fails; it was non-blocking while it proved stable (12 green runs

@@ -251,8 +251,9 @@ const intrinsic = (right, strike, S) => (right === "call" ? Math.max(0, S - stri
  *                shares of the underlying per contract (shares cover one call only), else flagged "naked-call"
  *   spread       a short leg covered by a long leg holds the width x 100 ("spread"); a one-expiry combo then holds
  *                no more than its maximum loss at expiry, so an iron condor holds one side, a butterfly nothing.
- *                Spreads not on SPX are also flagged "spread-margin-account": exchange rules allow spreads in a cash
- *                account only when built from European-style, cash-settled index options
+ *                Spreads not on SPX, or whose legs expire on different days, are also flagged "spread-margin-account":
+ *                exchange rules allow spreads in a cash account only when built from European-style, cash-settled
+ *                index options that all expire at the same time
  *   future       |qty| x settings.futuresMargin[root] if set ("futures-margin-unset" otherwise); always flagged
  *                "futures-account", since futures need a futures-enabled margin account
  *   short stock  flagged "short-stock" and given no cash figure: a cash account can't sell short
@@ -342,7 +343,7 @@ function pairWithLongs(positions, i, r, free) {
     free.set(j, free.get(j) - take);
     r.collateral += take * width(positions[j]) * OPTION_MULT;
     left -= take;
-    flagSpread(r, s.sym);
+    flagSpread(r, s, positions[j]);
   }
   return left;
 }
@@ -350,9 +351,11 @@ function pairWithLongs(positions, i, r, free) {
 /** Underlyings whose options are European-style and cash-settled: the only spreads exchange rules allow in a cash account. */
 const CASH_ACCOUNT_SPREAD_SYMS = new Set(["SPX"]);
 
-function flagSpread(r, sym) {
+/** A cash-account spread also needs every leg to expire at the same time (Cboe Margin Manual, p. 10). */
+function flagSpread(r, s, l) {
   if (!r.flags.includes("spread")) r.flags.push("spread");
-  if (!CASH_ACCOUNT_SPREAD_SYMS.has(sym) && !r.flags.includes("spread-margin-account")) r.flags.push("spread-margin-account");
+  const fits = CASH_ACCOUNT_SPREAD_SYMS.has(s.sym) && l.days === s.days;
+  if (!fits && !r.flags.includes("spread-margin-account")) r.flags.push("spread-margin-account");
 }
 
 /** Contracts no long leg covers: a put is cash-secured; a call is covered by shares, else naked. Returns the call
