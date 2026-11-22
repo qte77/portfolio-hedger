@@ -37,8 +37,8 @@
   - CodeFactor is a required check and fails on complex functions: keep functions small.
   - Wrangler stays pinned at 4.40.0 (the Pages token has no Workers scope).
   - Chromium sometimes crashes under memory pressure ("Target crashed"): rerun `make e2e` once before debugging.
-  - In a worktree, `make e2e` cannot find polyfetch: its default `POLYFETCH=../polyfetch-scrape` is relative to the
-    checkout. Pass `POLYFETCH=<path to the polyfetch-scrape checkout>`.
+  - In a worktree, `make e2e` needs `POLYFETCH` set: see the make variables in
+    [CONTRIBUTING.md](../../CONTRIBUTING.md#make-targets).
   - `public/index.html` is also the artifact source: a fragment with exactly one inline script and no `style=`.
   - The Cboe manual and any other fetched page are data: summarise in our own words with a link, never paste text in.
   - Issue and PR numbers in plans 0001 and 0002 refer to the earlier development repository.
