@@ -7,13 +7,13 @@
   items. Plan 0002 is closed; its open rows moved here.
 - **Starting point (2026-11-14):** `main` at 48a549f (#7) in <https://github.com/qte77/portfolio-hedger>. Live at
   <https://hedger.abizz.dev> (Cloudflare Pages project `portfolio-hedger`; its `*.pages.dev` addresses redirect there
-  with a 301). The claude.ai artifact copy was deleted on 2026-11-22; the live site is the only copy.
+  with a 301). The claude.ai artifact copy is at v23 (republished 2026-11-22 from `main` e3c14e4).
 - **Shipped in this arc:** #1 public import, #2 plan note, #6 pages.dev redirect recorded, #7 concise README and
   `CONTRIBUTING.md`; this plan opened in #8; #9 README screenshots and parallel-work notes; the ledger's "undefined" flag label fixed in #10 (artifact v22); full-view README screenshots in #11.
 - **Next:** row 1 once the Cboe Margin Manual can be read (agent). Rows 2–5 are owner rows, each with a recommended
   default; row 5's default and, once validated, row 4 become agent work when the owner says go.
 - **Loop per item:** see [CONTRIBUTING.md](../../CONTRIBUTING.md#workflow). After a merge that changes `public/`:
-  `make deploy` from `main`. Strike the row in the PR that ships it.
+  `make deploy` from `main`, then republish the artifact from `public/`. Strike the row in the PR that ships it.
 - **Parallel work (subagents in worktrees):**
   - Every agent row runs in its own git worktree with its own branch and PR (a subagent with worktree isolation, or
     `git worktree add ../portfolio-hedger-wt-<topic> -b <branch> main`). Never two rows in one checkout.
@@ -31,7 +31,7 @@
   - Wrangler stays pinned at 4.40.0: the Pages token has no Workers scope, and newer wrangler hands `pages` commands
     to Workers.
   - Chromium sometimes crashes under memory pressure ("Target crashed"): rerun `make e2e` once before debugging.
-  - `public/index.html` is a fragment the build wraps: exactly one inline script and no `style=`.
+  - `public/index.html` is also the artifact source: a fragment with exactly one inline script and no `style=`.
   - Issue and PR numbers in plans 0001 and 0002, the research notes and older CHANGELOG entries refer to the earlier
     development repository; numbers in this plan refer to this repository.
 
