@@ -5,6 +5,10 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Changed (Node 24 only)
+
+- CI sets up Node 24 instead of 22, and `engines.node` is `>=24.15` (was `>=20`).
+
 ### Fixed (ledger flag label)
 
 - The ledger showed "undefined" next to spreads on SPY, QQQ or single stocks: the flag added for spreads that need a margin account had no label. It now reads "needs margin account" (warning style), and an unlabelled flag falls back to its own name. e2e checks that the ledger never shows "undefined". Found while retaking the README screenshots.
