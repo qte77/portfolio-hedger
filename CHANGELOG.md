@@ -5,6 +5,11 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Changed (CI: docs-only PRs)
+
+- A PR that changes only Markdown, `docs/`, README screenshots or the licence skips the `ci` workflow (validate, e2e);
+  pushes to `main` still run it in full. CodeQL and CodeFactor still run on every PR.
+
 ### Changed (pins)
 
 - `dotenv-cli`, used by `make deploy`, is pinned to 8.0.0 instead of the range `@8`; wrangler and dotenv-cli versions are

@@ -8,7 +8,8 @@ How to build, test and deploy Portfolio Hedger. What the app is: [README.md](REA
 1. Branch by topic; commits by topic (`feat`, `fix`, `test`, `docs`, `chore`).
 2. Engine changes are test-first in `tests/engine.test.mjs`; UI wiring is covered by `make e2e`.
 3. Before pushing: `make validate`. For UI changes also `make build` and `make e2e`, and look at the screenshots.
-4. Open a PR; it is squash-merged once CI (validate, e2e, CodeFactor) passes.
+4. Open a PR; it is squash-merged once CI (validate, e2e, CodeFactor) passes. A docs-only PR skips validate and e2e
+   (see the `paths-ignore` in `.github/workflows/ci.yml`), so run `make validate` locally before pushing it.
 5. Deploy from `main` after the merge: `make deploy`.
 
 ## Make targets

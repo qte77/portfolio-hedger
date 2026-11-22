@@ -1,7 +1,10 @@
 name: ci
 
 on:
+  # A PR that only changes docs skips this workflow. Safe only while validate and e2e are not required checks: a
+  # skipped required check never reports and would block the merge. Pushes to main always run in full.
   pull_request:
+    paths-ignore: ["**/*.md", "docs/**", "assets/screenshots/**", "LICENSE"]
   push:
     branches: [main]
 
