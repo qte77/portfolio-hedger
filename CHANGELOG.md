@@ -5,6 +5,11 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Changed (pins)
+
+- `dotenv-cli`, used by `make deploy`, is pinned to 8.0.0 instead of the range `@8`; wrangler and dotenv-cli versions are
+  Make variables (`WRANGLER_VERSION`, `DOTENV_CLI_VERSION`), so each pin is set in one place.
+
 ### Changed (docs: local preview)
 
 - `make dev` is documented as an optional local preview (README, CONTRIBUTING, Makefile help). `make validate` and
