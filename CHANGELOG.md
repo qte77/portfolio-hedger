@@ -5,6 +5,11 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Changed (target user)
+
+- The target user is a self-directed retail options trader (`docs/spec.md`). Professional buyers stay untargeted, and
+  the research gap behind that is recorded in `docs/research/2026-11-22-target-retail-traders.md` (closes #4).
+
 ### Fixed (hash routing)
 
 - A URL hash that names an inherited object key (`#constructor`, `#__proto__`) blanked the page or threw; any hash that is not a view now falls back to the dashboard. e2e opens both. Also clears CodeQL alert #1.

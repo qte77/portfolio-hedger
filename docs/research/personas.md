@@ -18,8 +18,9 @@ best-grounded of them (Personas 1 and 2), enough to steer a product decision; it
 Personas 3, 4 and 5 are advisory, because their grounding is thin, and a verdict for them must say so.
 
 **Coverage gaps.** Professional buyers (RIA, prop desks, small funds) have one thin persona (5), from a time-boxed
-first search. Wilmott, QuantNet and adviser outlets were not reached and Advisor Perspectives was blocked, so #21
-stays open. Reddit was blocked on every fetch tier.
+first search. Wilmott, QuantNet and adviser outlets were not reached and Advisor Perspectives was blocked. Reddit was
+blocked on every fetch tier. The target is now retail traders, and this gap is kept on record in
+[2026-11-22-target-retail-traders.md](2026-11-22-target-retail-traders.md).
 
 ## How to run an evaluation with these
 
