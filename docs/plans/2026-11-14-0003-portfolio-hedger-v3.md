@@ -2,6 +2,8 @@
 
 ## Status (read this first)
 
+- **Closed 2026-11-22.** Its open rows moved to
+  [plan 0004](2026-11-22-0004-portfolio-hedger-maintenance.md); work from that plan.
 - **Arc goal:** keep the public app correct and maintained, and settle what plan 0002 left open: two unverified
   cash-account rules, the deferred broker benchmark and brand colours, and the advisory hedge-policy and research
   items. Plan 0002 is closed; its open rows moved here.
@@ -56,8 +58,8 @@ The only list of open work in this plan. Strike a row in the PR that ships it.
 
 | # | Item | Phase | Gate | Done when | State |
 |---|---|---|---|---|---|
-| 1 | Two unverified cash-account rules | A | data | the Cboe Margin Manual itself (not search excerpts) is read for whether a later-expiring long leg may cover a short in a cash account, and a Regulation T source for short stock; the note in `docs/research/2026-11-13-cash-rules-vs-cboe.md` is updated; if a rule differs, an engine test first, then the fix | open: the manual PDF could not be opened from the dev machine (moved from plan 0002 row 12) |
-| 2 | Broker-platform benchmark (#3) | B | owner | the example book rebuilt in thinkorswim or similar; Greeks and beta dollars agree within a stated tolerance; result in `docs/` | deferred (owner, 2026-11-13; plan 0002 row 10). Default: time-box to 1 hour on SPX legs and beta-weighted delta, or drop |
-| 3 | Brand chart colours | B | owner | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | deferred (owner, 2026-11-11; plan 0002 row 11): revisit when either closes |
-| 4 | Hedge policy (#5, advisory) | B | owner | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | open. Default: wait for a real signal through the feedback form |
-| 5 | Research gap (#4) | B | owner | one option chosen and its result recorded in `docs/research/` | open. Default: narrow the target to retail traders and record the gap |
+| 1 | Two unverified cash-account rules | A | data | the Cboe Margin Manual itself (not search excerpts) is read for whether a later-expiring long leg may cover a short in a cash account, and a Regulation T source for short stock; the note in `docs/research/2026-11-13-cash-rules-vs-cboe.md` is updated; if a rule differs, an engine test first, then the fix | moved to plan 0004 row 4 |
+| 2 | Broker-platform benchmark (#3) | B | owner | the example book rebuilt in thinkorswim or similar; Greeks and beta dollars agree within a stated tolerance; result in `docs/` | moved to plan 0004 row 5 |
+| 3 | Brand chart colours | B | owner | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | moved to plan 0004 row 6 |
+| 4 | Hedge policy (#5, advisory) | B | owner | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | moved to plan 0004 row 7 |
+| 5 | Research gap (#4) | B | owner | one option chosen and its result recorded in `docs/research/` | moved to plan 0004 row 8 |
