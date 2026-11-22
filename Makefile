@@ -14,7 +14,7 @@ VENDOR    := public/vendor
 # Exact pins, no ranges. wrangler >= ~4.150 hands `pages` commands over to Workers, which a Pages-only token cannot use.
 WRANGLER_VERSION   := 4.40.0
 DOTENV_CLI_VERSION := 8.0.0
-RUFF_VERSION       := 0.17.6
+RUFF_VERSION       := 0.17.4
 WRANGLER  := npm exec --yes --package=wrangler@$(WRANGLER_VERSION) -- wrangler
 # wrangler with the Cloudflare token/account from .env (see .env.example)
 CF        := npm exec --yes --package=wrangler@$(WRANGLER_VERSION) --package=dotenv-cli@$(DOTENV_CLI_VERSION) -- dotenv -e .env -- wrangler

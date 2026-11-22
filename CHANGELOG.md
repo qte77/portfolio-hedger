@@ -7,7 +7,7 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ### Added (Python lint)
 
-- `make lint` (and so `make validate` and CI) also runs ruff 0.17.6 on `scripts/*.py`, with the first two rule sets of
+- `make lint` (and so `make validate` and CI) also runs ruff 0.17.4 on `scripts/*.py`, with the first two rule sets of
   the qte77 repo-baseline graduation path (`ruff.toml`).
 
 ### Changed (CI: docs-only PRs)
