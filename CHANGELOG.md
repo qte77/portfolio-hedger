@@ -5,6 +5,11 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Changed (docs: local preview)
+
+- `make dev` is documented as an optional local preview (README, CONTRIBUTING, Makefile help). `make validate` and
+  `make e2e` still need no server; the docs no longer read as if local servers were not allowed.
+
 ### Changed (target user)
 
 - The target user is a self-directed retail options trader (`docs/spec.md`). Professional buyers stay untargeted, and

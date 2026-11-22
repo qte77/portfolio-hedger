@@ -9,7 +9,7 @@ it.
 
 - <https://portfolio-hedger.pages.dev> at `main` d3623af (#36), desktop 1280×900, one patchright Chromium session via
   polyfetch-scrape. Headless, not headed under `xvfb-run` as the run notes in `personas.md` say: our default here,
-  since no local servers run on this machine.
+  since this machine ran no local servers at the time.
 - No script errors, failed requests or HTTP errors. The clipboard was blocked under automation; the page fell back
   to selecting the text, as designed.
 - Book: example cleared; 400 AAPL, 300 MSFT and 100 TSLA shares; one long SPX 6300 put, 30 days; account cash

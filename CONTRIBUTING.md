@@ -24,7 +24,7 @@ How to build, test and deploy Portfolio Hedger. What the app is: [README.md](REA
 | `make reference` | Regenerate that fixture after changing its cases (`scripts/reference.py`) |
 | `make build` | `dist/`: wraps the page in a full document, inlines the favicon, writes `_headers` with a strict CSP |
 | `make validate` | `lint` + `test` + `crosscheck` + `build`, the same as CI |
-| `make dev` | Serve `dist/` with wrangler at `http://localhost:$(PORT)`, `_headers` applied |
+| `make dev` | Optional: preview `dist/` with wrangler at `http://localhost:$(PORT)`, `_headers` applied. No other target needs a local server |
 | `make e2e` | Headless check of a deployed `URL=`, or by default of `dist/` served from disk (no server): 3 viewports × 2 themes, clicks, screenshots to `SHOTS`; fails on script errors, failed requests and overflow |
 | `make deploy` | `validate`, then deploy `dist/` to the Pages project `PROJECT`; refuses to run unless on a clean `main` that matches `origin/main` |
 
