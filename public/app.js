@@ -840,7 +840,10 @@ function renderOptimizer() {
 
 // ---------- routing ----------
 const VIEWS = { dashboard: renderDashboard, positions: renderPositions, builder: renderBuilder, hedge: renderHedge, risk: renderRisk, surface: renderSurface, optimizer: renderOptimizer, method: () => {} };
-const current = () => (VIEWS[location.hash.slice(1)] ? location.hash.slice(1) : "dashboard");
+const current = () => {
+  const key = location.hash.slice(1);
+  return Object.hasOwn(VIEWS, key) ? key : "dashboard";
+};
 
 function render() {
   const v = current();
