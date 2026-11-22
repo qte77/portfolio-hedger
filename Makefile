@@ -11,10 +11,12 @@ SHOTS     ?= $(CURDIR)/e2e-shots
 # Python that runs scripts/e2e.py: polyfetch-scrape's environment here; CI passes a pinned patchright instead.
 E2E_PY    ?= uv run --directory $(POLYFETCH) python
 VENDOR    := public/vendor
-# Pinned: wrangler >= ~4.150 hands `pages` commands over to Workers, which a Pages-only token cannot use.
-WRANGLER  := npm exec --yes --package=wrangler@4.40.0 -- wrangler
+# Exact pins, no ranges. wrangler >= ~4.150 hands `pages` commands over to Workers, which a Pages-only token cannot use.
+WRANGLER_VERSION   := 4.40.0
+DOTENV_CLI_VERSION := 8.0.0
+WRANGLER  := npm exec --yes --package=wrangler@$(WRANGLER_VERSION) -- wrangler
 # wrangler with the Cloudflare token/account from .env (see .env.example)
-CF        := npm exec --yes --package=wrangler@4.40.0 --package=dotenv-cli@8 -- dotenv -e .env -- wrangler
+CF        := npm exec --yes --package=wrangler@$(WRANGLER_VERSION) --package=dotenv-cli@$(DOTENV_CLI_VERSION) -- dotenv -e .env -- wrangler
 BRANCH     = $(shell git branch --show-current)
 # QuantLib, an independent pricing library, for the engine cross-check (#7 B); pinned so the fixture is reproducible.
 QUANTLIB  := uv run --no-project --with QuantLib==1.44 python
