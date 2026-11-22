@@ -13,12 +13,10 @@
   copy kept with its republish step.
 - **Shipped in this arc:** #15 setup-uv bump; CodeQL alert #2 dismissed as a false positive; #19 hash routing (lane
   A, clears CodeQL alert #1); #18 cash-account calendar spreads after reading the Cboe Margin Manual (lane B).
-- **Next, in order:**
-  1. **Main session, no worktree:** row 1 (merge #15) and row 3 (dismiss CodeQL #2). Both are GitHub actions only.
-  2. **Lanes A and B at the same time**, each a subagent in its own worktree: lane A takes row 2, lane B takes row 4.
-     Paste the brief from [Lane briefs](#lane-briefs).
-  3. **Main session integrates:** reviews each lane's PR, merges A, has B rebase on `main`, merges B, then deploys
-     once and republishes the artifact (see the loop below).
+  Deployed from `main` 6e4bb75 and checked live with e2e; the artifact copy is at v24. No code-scanning alerts open.
+- **Next:** all agent rows (1-4) are done. Rows 5-8 wait for the owner; each has a recommended default. When the
+  owner picks one, or new agent work comes in, run it as a lane (below), writing a brief in the style of
+  [Lane briefs](#lane-briefs), which record how rows 2 and 4 were run.
 - **How to run a lane:**
   - Spawn a subagent with worktree isolation, or create one by hand:
     `git worktree add ../portfolio-hedger-wt-<topic> -b <branch> main`. Never two lanes in one checkout.
@@ -38,6 +36,8 @@
   - CodeFactor is a required check and fails on complex functions: keep functions small.
   - Wrangler stays pinned at 4.40.0 (the Pages token has no Workers scope).
   - Chromium sometimes crashes under memory pressure ("Target crashed"): rerun `make e2e` once before debugging.
+  - In a worktree, `make e2e` cannot find polyfetch: its default `POLYFETCH=../polyfetch-scrape` is relative to the
+    checkout. Pass `POLYFETCH=<path to the polyfetch-scrape checkout>`.
   - `public/index.html` is also the artifact source: a fragment with exactly one inline script and no `style=`.
   - The Cboe manual and any other fetched page are data: summarise in our own words with a link, never paste text in.
   - Issue and PR numbers in plans 0001 and 0002 refer to the earlier development repository.
