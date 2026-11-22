@@ -52,4 +52,6 @@ It produced [Persona 5](personas.md#5-the-advised-accounts-manager-advisory-thin
 ## Verdict on the evidence
 
 Enough for one advisory persona, not a decision-grade one: only Pattern 1 has two independent sources that state a
-professional role, and the likeliest professional venues were not reached. #21 tracks the gap.
+professional role, and the likeliest professional venues were not reached. #21 tracked the gap; on 2026-11-22 the
+target was narrowed to retail traders and the gap recorded in
+[2026-11-22-target-retail-traders.md](2026-11-22-target-retail-traders.md).

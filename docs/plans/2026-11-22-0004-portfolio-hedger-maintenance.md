@@ -13,8 +13,9 @@
   copy kept with its republish step.
 - **Shipped in this arc:** #15 setup-uv bump; CodeQL alert #2 dismissed as a false positive; #19 hash routing (lane
   A, clears CodeQL alert #1); #18 cash-account calendar spreads after reading the Cboe Margin Manual (lane B).
+  Row 8: the target narrowed to retail traders and the gap recorded (#21, closes #4).
   Deployed from `main` 6e4bb75 and checked live with e2e; the artifact copy is at v24. No code-scanning alerts open.
-- **Next:** all agent rows (1-4) are done. Rows 5-8 wait for the owner; each has a recommended default. When the
+- **Next:** agent rows 1-4 and row 8 are done. Rows 5-7 wait for the owner; each has a recommended default. When the
   owner picks one, or new agent work comes in, run it as a lane (below), writing a brief in the style of
   [Lane briefs](#lane-briefs), which record how rows 2 and 4 were run.
 - **How to run a lane:**
@@ -97,4 +98,4 @@ The only list of open work in this plan. Strike a row in the PR that ships it.
 | 5 | Broker-platform benchmark (#3; plan 0003 row 2) | owner | — | the example book rebuilt in thinkorswim or similar; Greeks and beta dollars agree within a stated tolerance; result in `docs/` | deferred. Default: time-box to 1 hour on SPX legs and beta-weighted delta, or drop |
 | 6 | Brand chart colours (plan 0003 row 3) | owner | — | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | deferred: revisit when either closes |
 | 7 | Hedge policy (#5, advisory; plan 0003 row 4) | owner | — | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | open. Default: wait for a real signal through the feedback form |
-| 8 | Research gap (#4; plan 0003 row 5) | owner | — | one option chosen and its result recorded in `docs/research/` | open. Default: narrow the target to retail traders and record the gap |
+| 8 | ~~Research gap (#4; plan 0003 row 5)~~ | owner | — | one option chosen and its result recorded in `docs/research/` | shipped (#21): target narrowed to retail traders, gap recorded |

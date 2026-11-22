@@ -9,6 +9,10 @@ One browser page where a user builds a book of option strategies, stocks and ETF
 hedges, and sees how each hedge changes that risk. Every position and every hedge lives in one shared ledger, so a hedge
 is a real position that every view picks up, not a number shown on one chart.
 
+**Target user:** a self-directed retail options trader hedging their own book. Professional buyers (advisers, prop
+desks, small funds) are not targeted yet; the gap is recorded in
+[`research/2026-11-22-target-retail-traders.md`](research/2026-11-22-target-retail-traders.md).
+
 ## Modules
 
 1. **Dashboard.** Net delta, gamma and beta dollars, plus counts of option legs and stock/ETF positions, for the whole
