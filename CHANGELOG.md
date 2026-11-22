@@ -5,6 +5,14 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Changed (CI)
+
+- The e2e CI job now fails the run when the UI check fails; it was non-blocking while it proved stable (12 green runs
+  in a row).
+- Dependabot opens one grouped PR a week for GitHub Actions updates (`.github/dependabot.yml`).
+- The claude.ai artifact copy is gone; https://hedger.abizz.dev is the only published copy. `public/index.html` stays a
+  fragment because the build wraps it.
+
 ### Changed (Node 24 only)
 
 - CI sets up Node 24 instead of 22, and `engines.node` is `>=24.15` (was `>=20`).
