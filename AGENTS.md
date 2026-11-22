@@ -8,6 +8,6 @@ Commands, make targets and the PR workflow: [CONTRIBUTING.md](CONTRIBUTING.md).
   the built `dist/` from disk; no local server), and look at the screenshots.
 - Engine changes are test-first (`tests/engine.test.mjs`); UI wiring is covered by `make e2e`.
 - `public/vendor/` is copied from `../qte77/brand` by `make vendor`. Change the brand there, never here.
-- `public/index.html` is a fragment the build wraps: no `<html>/<head>`, exactly one inline script (the build hashes it
-  into the CSP) and no inline `style=` attributes.
+- `public/index.html` is also the claude.ai artifact source: keep it a fragment (no `<html>/<head>`), with exactly one
+  inline script (the build hashes it into the CSP) and no inline `style=` attributes.
 - Deploy only from `main` after the PR is merged: `make deploy`.

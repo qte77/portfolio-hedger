@@ -70,7 +70,7 @@ Production is the Pages project `portfolio-hedger` behind the custom domain <htt
 ## Layout
 
 ```text
-public/            the app (index.html is a fragment without <html>/<head>; the build wraps it)
+public/            the app, and the claude.ai artifact source (index.html has no <html>/<head>)
   engine.js        pricing, Greeks, scenarios, Monte Carlo, hedges, optimizer, cash account (pure ES module)
   app.js, app.css  UI: state, hash routing, SVG charts
   vendor/          qte77 brand ui-kit, fonts, logo (make vendor; not edited here)

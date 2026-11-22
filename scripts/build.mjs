@@ -1,6 +1,7 @@
 // Build dist/ for Cloudflare Pages from public/.
-// public/index.html is a fragment without <html>/<head> (it began as a claude.ai artifact source).
-// Here we wrap it and write a strict CSP that allows the one inline script (the theme guard) by hash.
+// public/index.html is the claude.ai artifact source: a fragment without <html>/<head>, which the
+// artifact host wraps at publish time. Here we wrap it ourselves and write a strict CSP that allows
+// the one inline script (the theme guard) by hash.
 import { createHash } from "node:crypto";
 import { cpSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 
