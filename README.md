@@ -91,6 +91,7 @@ Views are hash routes (`#dashboard`, `#positions`, `#builder`, `#hedge`, `#risk`
 ```sh
 make validate   # lint, engine tests, QuantLib cross-check, build into dist/ (same as CI)
 make e2e        # headless UI check of the built dist/
+make dev        # optional: preview dist/ in a browser at http://localhost:8788
 ```
 
 Needs Node and [`uv`](https://docs.astral.sh/uv/). Every target, variable and the deploy setup are in

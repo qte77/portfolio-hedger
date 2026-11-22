@@ -49,7 +49,7 @@ reference: ## Regenerate tests/fixtures/quantlib-bs.json from QuantLib (after ch
 
 validate: lint test crosscheck build ## Local gate = CI: lint, tests, QuantLib cross-check, build
 
-dev: build ## Serve dist/ at http://localhost:$(PORT) with _headers applied
+dev: build ## Optional: preview dist/ at http://localhost:$(PORT) with _headers applied (validate and e2e need no server)
 	$(WRANGLER) pages dev dist --port $(PORT)
 
 e2e: ## Headless UI check of URL=$(URL) (a deployed URL, or a built dir served from disk); screenshots to $(SHOTS)
