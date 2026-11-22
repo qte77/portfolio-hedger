@@ -14,12 +14,12 @@ How to build, test and deploy Portfolio Hedger. What the app is: [README.md](REA
 
 ## Make targets
 
-`make` lists every target. Wrangler and Biome are pinned and run through `npm exec`; nothing is installed into the repo.
+`make` lists every target. Wrangler and Biome are pinned and run through `npm exec`, ruff through `uv tool run`; nothing is installed into the repo.
 
 | Target | What it does |
 |---|---|
 | `make vendor` | Copy the qte77 brand ui-kit, fonts and logo from `BRAND` into `public/vendor/` (source commit in `VENDOR.txt`) |
-| `make lint` | Biome lint (recommended rules) on our JS |
+| `make lint` | Biome lint (recommended rules) on our JS; ruff (`ruff.toml`) on `scripts/*.py` |
 | `make test` | Engine unit tests (`node --test`): the textbook example, the QuantLib fixture and the Method page's worked example |
 | `make crosscheck` | Recompute the QuantLib reference values (`uv`, `QuantLib==1.44`) and compare them with `tests/fixtures/quantlib-bs.json` |
 | `make reference` | Regenerate that fixture after changing its cases (`scripts/reference.py`) |

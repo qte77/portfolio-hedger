@@ -1,0 +1,12 @@
+# Lint for scripts/*.py (make lint). Rule sets: the first two rungs of the qte77 repo-baseline ruff graduation path
+# (L3-code-conventions/python.md): baseline E, F, I, N, W, UP and quality B, S, SIM, RUF.
+line-length = 120
+
+[lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "S", "SIM", "RUF"]
+# Long lines are mostly one-line check messages in e2e.py; wrapping them would not make them clearer.
+ignore = ["E501"]
+
+[lint.per-file-ignores]
+# QuantLib is imported as `ql` by convention; S and K are the spot and strike of the pricing formulas.
+"scripts/reference.py" = ["N813", "N803", "N806"]

@@ -14,6 +14,7 @@ VENDOR    := public/vendor
 # Exact pins, no ranges. wrangler >= ~4.150 hands `pages` commands over to Workers, which a Pages-only token cannot use.
 WRANGLER_VERSION   := 4.40.0
 DOTENV_CLI_VERSION := 8.0.0
+RUFF_VERSION       := 0.17.6
 WRANGLER  := npm exec --yes --package=wrangler@$(WRANGLER_VERSION) -- wrangler
 # wrangler with the Cloudflare token/account from .env (see .env.example)
 CF        := npm exec --yes --package=wrangler@$(WRANGLER_VERSION) --package=dotenv-cli@$(DOTENV_CLI_VERSION) -- dotenv -e .env -- wrangler
@@ -34,8 +35,9 @@ vendor: ## Copy the qte77 ui-kit, fonts and logo from $(BRAND)
 	cp $(BRAND)/images/logo-mark.paths.dejavu.svg $(VENDOR)/images/logo-mark.svg
 	echo "qte77/qte77 brand/ @ $$(git -C $(BRAND) rev-parse --short HEAD)" > $(VENDOR)/VENDOR.txt
 
-lint: ## Lint our JS with Biome (recommended rules; vendor/ excluded)
+lint: ## Lint our JS with Biome (recommended rules; vendor/ excluded) and scripts/*.py with ruff (ruff.toml)
 	npm exec --yes --package=@biomejs/biome@1.9.4 -- biome lint public/engine.js public/app.js tests scripts
+	uv tool run ruff@$(RUFF_VERSION) check scripts
 
 test: ## Run the engine unit tests
 	node --test "tests/*.test.mjs"
