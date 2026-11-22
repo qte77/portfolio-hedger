@@ -543,7 +543,7 @@ function renderCash(c) {
   if (c.positions.some((p) => p.flags.includes("futures-account"))) notes.push("Futures need a futures-enabled margin account, not a cash account.");
   if (c.positions.some((p) => p.flags.includes("futures-margin-unset"))) notes.push("Futures initial margin is not set, so it counts as $0. Enter your broker's figure.");
   if (c.positions.some((p) => p.flags.includes("spread"))) notes.push("Spreads hold their maximum loss, which assumes your broker allows spreads in this account.");
-  if (c.positions.some((p) => p.flags.includes("spread-margin-account"))) notes.push("Spreads on SPY, QQQ or single stocks need a margin account: exchange rules allow spreads in a cash account only when built from European-style, cash-settled index options such as SPX.");
+  if (c.positions.some((p) => p.flags.includes("spread-margin-account"))) notes.push("Spreads on SPY, QQQ or single stocks, and spreads whose legs expire on different days, need a margin account: exchange rules allow spreads in a cash account only when built from European-style, cash-settled index options such as SPX that all expire together.");
   $("cash-summary").innerHTML = `<div class="cash-sum">
       ${row("Paid (stock and long options, at entry)", money(t.paid, { compact: false }))}
       ${row("Premium received (short options)", money(-t.received, { compact: false }))}

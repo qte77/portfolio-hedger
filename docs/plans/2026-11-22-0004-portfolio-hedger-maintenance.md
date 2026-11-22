@@ -10,7 +10,9 @@
   required check).
 - **Shipped before this arc:** plan 0003's list (#1, #2, #6, #7, #8, #9, #10, #11), then #12 README screenshots in
   `assets/screenshots`, #13 Node 24 only, #14 grouped Dependabot for Actions and a blocking e2e job, #16 the artifact
-  copy kept with its republish step, #19 the hash routing fix (lane A).
+  copy kept with its republish step.
+- **Shipped in this arc:** #15 setup-uv bump; CodeQL alert #2 dismissed as a false positive; #19 hash routing (lane
+  A, clears CodeQL alert #1); #18 cash-account calendar spreads after reading the Cboe Margin Manual (lane B).
 - **Next, in order:**
   1. **Main session, no worktree:** row 1 (merge #15) and row 3 (dismiss CodeQL #2). Both are GitHub actions only.
   2. **Lanes A and B at the same time**, each a subagent in its own worktree: lane A takes row 2, lane B takes row 4.
