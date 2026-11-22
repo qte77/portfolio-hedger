@@ -10,7 +10,7 @@
   required check).
 - **Shipped before this arc:** plan 0003's list (#1, #2, #6, #7, #8, #9, #10, #11), then #12 README screenshots in
   `assets/screenshots`, #13 Node 24 only, #14 grouped Dependabot for Actions and a blocking e2e job, #16 the artifact
-  copy kept with its republish step.
+  copy kept with its republish step, #19 the hash routing fix (lane A).
 - **Next, in order:**
   1. **Main session, no worktree:** row 1 (merge #15) and row 3 (dismiss CodeQL #2). Both are GitHub actions only.
   2. **Lanes A and B at the same time**, each a subagent in its own worktree: lane A takes row 2, lane B takes row 4.
@@ -88,9 +88,9 @@ The only list of open work in this plan. Strike a row in the PR that ships it.
 
 | # | Item | Gate | Lane | Done when | State |
 |---|---|---|---|---|---|
-| 1 | Dependabot #15 (setup-uv 10.3.0 → 10.4.0) | agent | main | merged after all checks pass; branch deleted | open |
-| 2 | Hash routing: inherited keys reach `VIEWS` (CodeQL alert #1, `public/app.js:853`) | agent | A | see lane A; then deployed, live e2e passes, artifact republished as v24 | open |
-| 3 | CodeQL alert #2 (`js/bad-tag-filter`, `scripts/build.mjs:25`) | agent | main | dismissed as a false positive: a build-time read of the repo's own `index.html`, no untrusted input; no open alerts remain after row 2 | open |
+| 1 | ~~Dependabot #15 (setup-uv 10.3.0 → 10.4.0)~~ | agent | main | merged after all checks pass; branch deleted | shipped (#15) |
+| 2 | ~~Hash routing: inherited keys reach `VIEWS` (CodeQL alert #1, `public/app.js:853`)~~ | agent | A | see lane A; then deployed, live e2e passes, artifact republished as v24 | shipped (#19) |
+| 3 | ~~CodeQL alert #2 (`js/bad-tag-filter`, `scripts/build.mjs:25`)~~ | agent | main | dismissed as a false positive: a build-time read of the repo's own `index.html`, no untrusted input; no open alerts remain after row 2 | dismissed 2026-11-22 as a false positive |
 | 4 | Two unverified cash-account rules (plan 0003 row 1) | data | B | see lane B: the manual itself is read and the note updated; a differing rule gets a test, then the fix | open: if the PDF cannot be fetched, the owner downloads it to the dev machine outside the repo |
 | 5 | Broker-platform benchmark (#3; plan 0003 row 2) | owner | — | the example book rebuilt in thinkorswim or similar; Greeks and beta dollars agree within a stated tolerance; result in `docs/` | deferred. Default: time-box to 1 hour on SPX legs and beta-weighted delta, or drop |
 | 6 | Brand chart colours (plan 0003 row 3) | owner | — | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | deferred: revisit when either closes |

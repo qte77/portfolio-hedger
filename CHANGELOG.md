@@ -5,6 +5,10 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Fixed (hash routing)
+
+- A URL hash that names an inherited object key (`#constructor`, `#__proto__`) blanked the page or threw; any hash that is not a view now falls back to the dashboard. e2e opens both. Also clears CodeQL alert #1.
+
 ### Changed (CI)
 
 - The e2e CI job now fails the run when the UI check fails; it was non-blocking while it proved stable (12 green runs

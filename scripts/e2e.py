@@ -70,6 +70,16 @@ def check(cond: bool, msg: str) -> None:
         problems.append(msg)
 
 
+def check_bad_hashes(page, tag: str) -> None:
+    # Inherited object keys are not views: they must fall back to the dashboard, not blank or break the page.
+    for bad in ("constructor", "__proto__"):
+        page.evaluate(f"location.hash = '#{bad}'")
+        page.wait_for_timeout(250)
+        check(page.locator("#view-dashboard").is_visible(), f"{tag}: #{bad} did not fall back to the dashboard")
+        check(page.get_attribute('.tabs a[href="#dashboard"]', "aria-current") == "page", f"{tag}: #{bad} left the dashboard tab unmarked")
+        check(page.get_attribute("html", "data-js-error") is None, f"{tag}: #{bad} script error")
+
+
 def run(browser, device: str, theme: str) -> None:
     ctx = browser.new_context(**DEVICES[device])
     if DIST:
@@ -104,6 +114,8 @@ def run(browser, device: str, theme: str) -> None:
         js_error = page.get_attribute("html", "data-js-error")
         check(js_error is None, f"{tag}: #{view} script error: {js_error}")
         page.screenshot(path=str(OUT / f"{device}-{theme}-{view}.png"), full_page=True)
+
+    check_bad_hashes(page, tag)
 
     # interactions (desktop dark only, to keep the run short)
     if device == "desktop" and theme == "dark":
