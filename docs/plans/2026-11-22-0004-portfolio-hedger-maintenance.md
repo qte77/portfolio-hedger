@@ -2,6 +2,8 @@
 
 ## Status (read this first)
 
+- **Closed 2026-11-22.** Rows 1-4 and 8 shipped, row 5 dropped, rows 6 and 7 deferred with their gates (owner
+  decision, 2026-11-22). No open agent work. The next plan carries rows 6 and 7 over as deferred rows.
 - **Arc goal:** clear the open maintenance items (a Dependabot update and two CodeQL alerts, one of them a real routing
   bug), settle the cash-rule check against the Cboe Margin Manual, and keep the owner rows from plan 0003 with their
   defaults. Plan 0003 is closed; its open rows moved here.
@@ -15,9 +17,8 @@
   A, clears CodeQL alert #1); #18 cash-account calendar spreads after reading the Cboe Margin Manual (lane B).
   Row 8: the target narrowed to retail traders and the gap recorded (#21, closes #4).
   Deployed from `main` 6e4bb75 and checked live with e2e; the artifact copy is at v24. No code-scanning alerts open.
-- **Next:** agent rows 1-4 and row 8 are done. Rows 5-7 wait for the owner; each has a recommended default. When the
-  owner picks one, or new agent work comes in, run it as a lane (below), writing a brief in the style of
-  [Lane briefs](#lane-briefs), which record how rows 2 and 4 were run.
+- **Next:** nothing open. When a gate on row 6 or 7 opens, or new work comes in, start the next plan and run each
+  agent item as a lane (below), with a brief in the style of [Lane briefs](#lane-briefs).
 - **How to run a lane:**
   - Spawn a subagent with worktree isolation, or create one by hand:
     `git worktree add ../portfolio-hedger-wt-<topic> -b <branch> main`. Never two lanes in one checkout.
@@ -95,7 +96,7 @@ The only list of open work in this plan. Strike a row in the PR that ships it.
 | 2 | ~~Hash routing: inherited keys reach `VIEWS` (CodeQL alert #1, `public/app.js:853`)~~ | agent | A | see lane A; then deployed, live e2e passes, artifact republished as v24 | shipped (#19) |
 | 3 | ~~CodeQL alert #2 (`js/bad-tag-filter`, `scripts/build.mjs:25`)~~ | agent | main | dismissed as a false positive: a build-time read of the repo's own `index.html`, no untrusted input; no open alerts remain after row 2 | dismissed 2026-11-22 as a false positive |
 | 4 | ~~Two unverified cash-account rules (plan 0003 row 1)~~ | data | B | see lane B: the manual itself is read and the note updated; a differing rule gets a test, then the fix | shipped (#18) |
-| 5 | Broker-platform benchmark (#3; plan 0003 row 2) | owner | — | the example book rebuilt in thinkorswim or similar; Greeks and beta dollars agree within a stated tolerance; result in `docs/` | deferred. Default: time-box to 1 hour on SPX legs and beta-weighted delta, or drop |
-| 6 | Brand chart colours (plan 0003 row 3) | owner | — | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | deferred: revisit when either closes |
-| 7 | Hedge policy (#5, advisory; plan 0003 row 4) | owner | — | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | open. Default: wait for a real signal through the feedback form |
+| 5 | ~~Broker-platform benchmark (#3; plan 0003 row 2)~~ | owner | — | the example book rebuilt in thinkorswim or similar; Greeks and beta dollars agree within a stated tolerance; result in `docs/` | dropped (owner, 2026-11-22): the engine is already cross-checked against QuantLib on every validate; a broker comparison needs a broker platform. #3 closed as not planned |
+| 6 | Brand chart colours (plan 0003 row 3) | owner | — | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | deferred (owner, 2026-11-22). Gate: qte77/qte77#152 or #213 closes; then `make vendor` and a visual check |
+| 7 | Hedge policy (#5, advisory; plan 0003 row 4) | owner | — | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | deferred (owner, 2026-11-22). Gate: a real request, e.g. through the feedback form; the target is retail traders (#21), so this stays advisory. #5 stays open |
 | 8 | ~~Research gap (#4; plan 0003 row 5)~~ | owner | — | one option chosen and its result recorded in `docs/research/` | shipped (#21): target narrowed to retail traders, gap recorded |
