@@ -103,6 +103,8 @@ exposure. Portfolio Hedger prices every leg, adds the exposures up across the wh
 real position, so every view shows its effect, side effects and cost. The method, assumptions and limits are on the
 app's **Method** page.
 
+It is built for self-directed retail options traders hedging their own book; see [docs/spec.md](docs/spec.md).
+
 ## Further reading
 
 - [CONTRIBUTING.md](CONTRIBUTING.md): build, test, deploy, layout, conventions.
