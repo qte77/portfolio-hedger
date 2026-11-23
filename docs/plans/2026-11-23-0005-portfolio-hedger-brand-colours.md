@@ -48,6 +48,6 @@ The only list of open work in this plan. Strike a row in the PR that ships it.
 
 | # | Item | Gate | Done when | State |
 |---|---|---|---|---|
-| 1 | ~~Brand chart colours (plan 0004 row 6)~~ | agent | `make vendor` from qte77/qte77 `main`; `VENDOR.txt` names that commit; `make validate` and `make e2e` pass; gains, losses and warnings checked in both themes in the screenshots; then deployed, live e2e passes, artifact republished | shipped (#PR); vendored from qte77/qte77 1cf2918 |
+| 1 | ~~Brand chart colours (plan 0004 row 6)~~ | agent | `make vendor` from qte77/qte77 `main`; `VENDOR.txt` names that commit; `make validate` and `make e2e` pass; gains, losses and warnings checked in both themes in the screenshots; then deployed, live e2e passes, artifact republished | shipped (#29); vendored from qte77/qte77 1cf2918 |
 | 2 | README screenshots show the new colours | agent | after row 1 is live: `scripts/screenshots.py` retaken into `assets/screenshots/`, images looked at | open |
 | 3 | Hedge policy (#5, advisory; plan 0004 row 7) | owner | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | deferred (owner, 2026-11-22). Gate: a real request, e.g. through the feedback form; the target is retail traders (#21), so this stays advisory |
