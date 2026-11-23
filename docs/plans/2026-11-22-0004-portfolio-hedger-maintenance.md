@@ -3,7 +3,8 @@
 ## Status (read this first)
 
 - **Closed 2026-11-22.** Rows 1-4 and 8 shipped, row 5 dropped, rows 6 and 7 deferred with their gates (owner
-  decision, 2026-11-22). No open agent work. The next plan carries rows 6 and 7 over as deferred rows.
+  decision, 2026-11-22). No open agent work. Rows 6 and 7 moved to
+  [plan 0005](2026-11-23-0005-portfolio-hedger-brand-colours.md) (rows 1 and 3).
 - **Arc goal:** clear the open maintenance items (a Dependabot update and two CodeQL alerts, one of them a real routing
   bug), settle the cash-rule check against the Cboe Margin Manual, and keep the owner rows from plan 0003 with their
   defaults. Plan 0003 is closed; its open rows moved here.
@@ -97,6 +98,6 @@ The only list of open work in this plan. Strike a row in the PR that ships it.
 | 3 | ~~CodeQL alert #2 (`js/bad-tag-filter`, `scripts/build.mjs:25`)~~ | agent | main | dismissed as a false positive: a build-time read of the repo's own `index.html`, no untrusted input; no open alerts remain after row 2 | dismissed 2026-11-22 as a false positive |
 | 4 | ~~Two unverified cash-account rules (plan 0003 row 1)~~ | data | B | see lane B: the manual itself is read and the note updated; a differing rule gets a test, then the fix | shipped (#18) |
 | 5 | ~~Broker-platform benchmark (#3; plan 0003 row 2)~~ | owner | — | the example book rebuilt in thinkorswim or similar; Greeks and beta dollars agree within a stated tolerance; result in `docs/` | dropped (owner, 2026-11-22): the engine is already cross-checked against QuantLib on every validate; a broker comparison needs a broker platform. #3 closed as not planned |
-| 6 | Brand chart colours (plan 0003 row 3) | owner | — | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | deferred (owner, 2026-11-22). Gate: qte77/qte77#152 or #213 closes; then `make vendor` and a visual check |
-| 7 | Hedge policy (#5, advisory; plan 0003 row 4) | owner | — | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | deferred (owner, 2026-11-22). Gate: a real request, e.g. through the feedback form; the target is retail traders (#21), so this stays advisory. #5 stays open |
+| 6 | Brand chart colours (plan 0003 row 3) | owner | — | qte77/qte77#152 and #213 resolved upstream; `make vendor` re-run here | moved to plan 0005 row 1 |
+| 7 | Hedge policy (#5, advisory; plan 0003 row 4) | owner | — | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | moved to plan 0005 row 3 |
 | 8 | ~~Research gap (#4; plan 0003 row 5)~~ | owner | — | one option chosen and its result recorded in `docs/research/` | shipped (#21): target narrowed to retail traders, gap recorded |
