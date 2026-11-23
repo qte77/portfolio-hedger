@@ -11,8 +11,12 @@
 - **Shipped before this arc:** plans 0001–0004 (see each plan's status); after 0004 closed: #24 `make dev` documented
   as an optional preview, #25 exact pins for wrangler and dotenv-cli, #26 docs-only PRs skip the `ci` workflow, #27
   ruff on `scripts/*.py`.
-- **Next, in order:** row 1, then deploy and republish, then row 2 (it photographs the live site). Row 3 waits for
-  its gate.
+- **Progress (2026-11-23):** row 1 shipped in #29 and deployed from `main` a14bd88. Its live e2e has not passed yet:
+  Chromium crashed twice ("Target crashed", "Page crashed") with about 1.3 GB of memory free on the dev machine; CI's
+  e2e on #29 and the local e2e on the built `dist/` passed. The artifact copy could not be republished: its link was
+  deleted or lost write access (row 4).
+- **Next, in order:** when the machine has memory to spare, run `URL=https://hedger.abizz.dev make e2e`, then row 2
+  (it photographs the live site). Rows 3 and 4 wait for their gates.
 - **Loop per item:** [CONTRIBUTING.md](../../CONTRIBUTING.md#workflow). `make validate` before every push; `make e2e`
   for UI changes. After a merge that changes `public/`: `make deploy` from a clean `main`, check the live site with
   `URL=https://hedger.abizz.dev make e2e`, republish the artifact from `public/`. Strike the row in the PR that
@@ -51,3 +55,4 @@ The only list of open work in this plan. Strike a row in the PR that ships it.
 | 1 | ~~Brand chart colours (plan 0004 row 6)~~ | agent | `make vendor` from qte77/qte77 `main`; `VENDOR.txt` names that commit; `make validate` and `make e2e` pass; gains, losses and warnings checked in both themes in the screenshots; then deployed, live e2e passes, artifact republished | shipped (#29); vendored from qte77/qte77 1cf2918 |
 | 2 | README screenshots show the new colours | agent | after row 1 is live: `scripts/screenshots.py` retaken into `assets/screenshots/`, images looked at | open |
 | 3 | Hedge policy (#5, advisory; plan 0004 row 7) | owner | validated first (a persona re-run against #5's criteria, or real adviser feedback); then the owner picks which parts to build | deferred (owner, 2026-11-22). Gate: a real request, e.g. through the feedback form; the target is retail traders (#21), so this stays advisory |
+| 4 | claude.ai artifact copy | owner | the owner chooses: publish a new copy at a new link (and update the links in the docs), or drop the copy and its republish step from AGENTS.md, CONTRIBUTING.md, `scripts/build.mjs` and this plan | deferred (owner, 2026-11-23): the v24 link was deleted or lost write access when v25 was published |
