@@ -36,7 +36,7 @@
 
 /* Visible focus — never rely on color alone. */
 #theme-toggle:focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--focus, var(--primary)); /* --focus: indicator colour where primary is under 3:1 (#214) */
   outline-offset: 2px;
 }
 

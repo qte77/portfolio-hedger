@@ -5,6 +5,12 @@ All notable changes are listed here. Format: [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Changed (brand chart colours)
+
+- `public/vendor/` re-vendored from qte77/qte77 `brand/` at 1cf2918: the gain, loss, caution and alternate data
+  colours are re-stepped away from the brand accents (qte77/qte77#213), in both themes, and the ui-kit gains a
+  `--focus` colour. The app reads them through CSS variables, so no app code changed.
+
 ### Added (Python lint)
 
 - `make lint` (and so `make validate` and CI) also runs ruff 0.17.4 on `scripts/*.py`, with the first two rule sets of
