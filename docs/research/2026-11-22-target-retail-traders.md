@@ -20,8 +20,8 @@ need either people or access this project does not have. The evidence it does ha
 
 - [`docs/spec.md`](../spec.md) names the target user: a self-directed retail options trader hedging their own book.
 - Product decisions are weighed against Personas 1 and 2. Personas 3–5 stay advisory, as before.
-- The hedge-policy idea (#5) came from the professional sources. It stays advisory and is not built until a real
-  signal arrives (plan 0004 row 7).
+- The hedge-policy idea (#5) came from the professional sources. It was closed as not planned on 2026-11-25 (plan
+  0005 row 3); reopen it if a real request arrives.
 
 ## The gap, kept on record
 
